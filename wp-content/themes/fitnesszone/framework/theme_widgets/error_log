@@ -1,0 +1,13 @@
+[06-Aug-2018 14:46:56 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/social_widget.php on line 4
+[06-Aug-2018 14:47:12 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/gallery_widget.php on line 6
+[06-Aug-2018 14:47:29 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/recent_workouts.php on line 6
+[06-Aug-2018 14:47:47 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/recent_pages.php on line 6
+[06-Aug-2018 14:48:08 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/upcoming_events.php on line 6
+[06-Aug-2018 14:48:30 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/recent_posts.php on line 6
+[06-Aug-2018 14:48:58 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/flickr.php on line 2
+[06-Aug-2018 14:49:28 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/mailchimp.php on line 6
+[06-Aug-2018 14:50:57 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/twitter.php on line 6
+[10-Aug-2018 08:30:52 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/twitter.php on line 6
+[10-Aug-2018 08:30:53 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/twitter.php on line 6
+[10-Aug-2018 13:49:19 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/upcoming_events.php on line 6
+[10-Aug-2018 14:44:30 America/Chicago] PHP Fatal error:  Class 'WP_Widget' not found in /home/brapa492/public_html/wp-content/themes/fitnesszone/framework/theme_widgets/social_widget.php on line 4
