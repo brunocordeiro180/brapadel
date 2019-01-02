@@ -62,7 +62,7 @@ Text Domain: fitnesszone
 
 /*----*****---- << 1. General >> ----*****----*/
 	
-	body { font-weight:300; font-size:14px; line-height:28px; background:red; color:#6a695e; }
+	body { font-weight:300; font-size:14px; line-height:28px; background:#ffffff; color:#6a695e; }
 	*{ -moz-box-sizing:border-box; -webkit-box-sizing:border-box; box-sizing:border-box; }
 	
 	/*----*****---- << 01. Fonts >> ----*****----*/
@@ -238,7 +238,7 @@ Text Domain: fitnesszone
 	select { height:50px; background-color:#ffffff; color:#6a695e; border:1px solid #e5e5d8; width:100%; margin:0px 0px 30px; padding:15px 10px 14px 15px; -webkit-appearance:none; -moz-appearance:none; appearance:none; cursor:pointer; }
 	
 	.selection-box { position:relative; clear:both; }
-	.selection-box:before, .selection-box:after { content: ""; display: block; position:absolute; pointer-events: none;}
+	.selection-box:before, .selection-box:after { content: ""; display: block; position:absolute; }
 	.selection-box:before { z-index:1; right:17px; top:3px; bottom:0px; height:0px; margin:auto; border-left:7px solid transparent; border-right:7px solid transparent; border-top:7px solid #fff; }
 	.selection-box:after { width:50px; height:50px; right:0px; top:0px; }
 	.selection-box select { background:#ffffff; }
@@ -485,7 +485,7 @@ Text Domain: fitnesszone
 	
 /*----*****---- << 2. Layout >> ----*****----*/
 	/*----*****---- << 01. Container >> ----*****----*/
-	.container { max-width:1170px; width:100%;  margin:0 auto; position:relative; clear:both; }
+	.container { width:1170px; margin:0 auto; position:relative; clear:both; }
 	
 	.wrapper { clear:both; width:100%; margin:0px; padding:0px; float:left; overflow:hidden; }
 	.boxed .wrapper { width:1260px; margin:0 auto; float:none; }
@@ -1778,13 +1778,3 @@ Text Domain: fitnesszone
 		.vc_grid-filter-dropdown .vc_grid-styled-select { height:auto; }
 		
 		.page-with-sidebar .fullwidth-section > .container { max-width: 100%; width: auto; }
-
-		@media only screen and (max-width: 560px) {
-			.steps li {
-				color: white;
-			}
-		}
-
-		/* .footer-widgets-wrapper {
-			margin-top: 50%;
-		} */

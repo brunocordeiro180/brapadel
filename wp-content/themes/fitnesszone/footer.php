@@ -34,27 +34,22 @@
                         </div>
                     </div>
                 <?php endif; ?>
+            </div>
+            <div class="copyright">
+                <div class="container"><?php
+					#Footer Menu...
+					wp_nav_menu( array('theme_location' => 'secondary-menu', 'container'  => false, 'menu_class' => 'footer-links', 'fallback_cb' => 'dt_theme_footer_navigation')); ?>
 
+                    <?php if(dt_theme_option('general','show-copyrighttext') != ''): ?>
+	                    <p><?php echo wp_kses(stripslashes(dt_theme_option('general','copyright-text')), $dt_allowed_html_tags); ?></p>
+					<?php endif; ?>
+                </div>
+            </div>
+        </footer><!-- footer ends here -->
 
 	</div><!-- **Inner Wrapper - End** -->
 </div><!-- **Wrapper - End** -->
 <?php if(dt_theme_option('integration', 'enable-body-code') != '') echo '<script type="text/javascript">'.wp_kses(stripslashes(dt_theme_option('integration', 'body-code')), $dt_allowed_html_tags).'</script>';
 wp_footer(); ?>
-
-
-
-<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBjE-fgHvPfDBjchzkhImrrQH7UTi-kkI4",
-    authDomain: "brapadel-221012.firebaseapp.com",
-    databaseURL: "https://brapadel-221012-4a46a.firebaseio.com/",
-    projectId: "brapadel-221012",
-    storageBucket: "",
-    messagingSenderId: "598052612572"
-  };
-  firebase.initializeApp(config);
-</script>
 </body>
 </html>
