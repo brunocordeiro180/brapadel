@@ -19,38 +19,8 @@ function create_posttype_reservab() {
  
     register_post_type( 'reservab', $args);
 }
-
-function remove_acf_time_picker_seconds() { ?>
-    <style>
-      .ui_tpicker_second,
-      .ui_tpicker_second::before {
-        display: none !important;
-      }
-    </style>
-<?php }
   
-add_action('admin_head', 'remove_acf_time_picker_seconds');
 add_action( 'init', 'create_posttype_reservab' );
-
-
-
-
-
-
-remove_role('assinante_bloqueado');
-
-remove_role('Cliente - Bloqueado');
-
-
-add_role('cliente_bloqueado', __(
-'Cliente - Bloqueado'),
-array(
-'read' => true, // Allows a user to read
-'create_posts' => false, // Allows user to create new posts
-'edit_posts' => false, // Allows user to edit their own posts
-)
-);
-
 
 
 ?>
