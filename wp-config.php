@@ -21,16 +21,28 @@
 // ** Configurações do MySQL - Você pode pegar estas informações
 // com o serviço de hospedagem ** //
 /** O nome do banco de dados do WordPress */
+// define('DB_NAME', 'brapadel');
+
+// /** Usuário do banco de dados MySQL */
+// define('DB_USER', 'brapadel');
+
+// /** Senha do banco de dados MySQL */
+// define('DB_PASSWORD', 'brapadel2019');
+
+// /** Nome do host do MySQL */
+// define('DB_HOST', 'mysql995.umbler.com');
+
 define('DB_NAME', 'brapadel');
 
 /** Usuário do banco de dados MySQL */
-define('DB_USER', 'brapadel');
+define('DB_USER', 'root');
 
 /** Senha do banco de dados MySQL */
-define('DB_PASSWORD', 'brapadel2019');
+define('DB_PASSWORD', 'root');
 
 /** Nome do host do MySQL */
-define('DB_HOST', 'mysql995.umbler.com');
+define('DB_HOST', 'localhost');
+
 
 /** Charset do banco de dados a ser usado na criação das tabelas. */
 define('DB_CHARSET', 'utf8mb4');
