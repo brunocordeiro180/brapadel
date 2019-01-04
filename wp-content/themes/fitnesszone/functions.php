@@ -27,4 +27,31 @@ if (! isset ( $content_width ))
 require_once (get_template_directory () . '/framework/include.php');
 $page_layout = dt_theme_option('specialty', 'global-page-layout');
 $GLOBALS['page_layout'] = !empty($page_layout) ? $page_layout : 'content-full-width';
-$GLOBALS['force_enable'] = dt_theme_option('specialty', 'force-enable-global-layout'); ?>
+$GLOBALS['force_enable'] = dt_theme_option('specialty', 'force-enable-global-layout'); 
+
+function create_posttype_reservab() {
+
+    $labels = array(
+        'name' => 'Reservas Brapadel',
+        'singular_name' => 'Reserva Brapadel',
+        'add_new_item' => 'Adiconar nova Reserva',
+        'edit_item' => 'Editar Reserva',
+        'new_item' => 'Nova Reserva',
+        'all_items' => 'Todas as Reservas'
+    );
+
+    $args = array(
+        'labels' => $labels,
+        'public' => true,
+        'menu_icon' => 'dashicons-cart'
+    );
+ 
+    register_post_type( 'reservab', $args);
+}
+
+add_action( 'init', 'create_posttype_reservab' );
+
+
+
+
+?>

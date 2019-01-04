@@ -1,0 +1,157 @@
+***Fitness Zone WordPress Theme Changelog ***
+
+2018.01.30 - version 3.3
+ * Dummy content updated with watermarked images
+ * Some design tweaks fixed
+
+2017.12.25 - version 3.2
+ * Unyson importer content updated
+
+2017.12.06 - version 3.1
+ * mailchimp issue fixed
+
+2017.11.21 - version 3.0
+ * Updated to new Theme Check Standards
+ * WordPress 4.9 compatible
+ * Updated latest version of all third party plugins
+ * Unyson importer content updated
+
+2017.08.29 - version 2.9
+ * Few IE scripts loading issue fixed
+ * Meta description duplicate value issue fixed
+ * Iconbox box shortcode link target option added
+ * WordPress 4.8.1 compatible
+ * Widget & Translation fixes in page builder fixed
+ * Page for posts meta box displaying issue fixed
+ * Woocommerce product page preview image issue fixed for iphone
+ * Updated latest version of all third party plugins
+ * Nav Menu Roles plugin conflict issue fixed
+ * Unyson importer content updated
+
+2017.04.24 - version 2.8
+ * Few shortcodes issues fixed
+ * Some missing texts updated for translation
+ * Updated latest version of all third party plugins
+ * Unyson importer content updated
+ * Woocommerce 3.0 compatible
+ * Widgets conflicts with buddypress activity fixed
+ * Gallery settings WPML issue fixed
+ * Some design tweaks updated
+ * Few php warnings fixed
+ * Page builder design fixes
+ * Twitter widget link text issue fixed
+ * Few latest scripts updated
+
+2017.03.28 - version 2.7
+ * Fixed WP_Error() issues
+ * Added About page sample layout in page builder
+ * Fixed Some design issues
+ * Fixed post page breadcrumb issues 
+ * Updated .po file
+ * Fixed some notice issues
+ * Target property added in pricing table shortcode
+ * Fixed sidebar issues
+
+2016.11.09 - version 2.6
+ * Page builder fix
+
+2016.10.15 - version 2.5
+ * BPanel UI design fixes for Events Calendar update
+
+2016.09.30 - version 2.4
+ * Woocommerce coupon code update css issue fixed
+ * WPML page builder issue fixed
+ * Dummy data content optimized
+ * Mailchimp updated to latest api 3.0
+ * Updated latest version of all third party plugins
+ * Font awesome css updated
+ * Social share links alignment issue fixed
+ * Dropdown submenu issue fixed
+ * Page Builder functional enhancements
+ * Dummy content importer updated
+ * Unyson importer plugin included
+ * SSL compatible updated
+
+2016.08.17 - version 2.3
+ * WordPress 4.6 Compatible
+ * Visual Composer 4.12 Compatible
+ * Tribe events widget area class updated
+ * Some design tweaks fixed
+
+2016.08.01 - version 2.2
+ * Plugin translation text missing fixed
+ * BuddyPress cover image issue fixed
+ * Global sidebar theme option issue updated
+ * Page builder element title issue updated
+ * Some design issues updated
+
+2016.07.01 - version 2.1
+ * Latest TGM plugin updated
+ * Latest Responsive Styled Google Maps plugin updated for Google Maps API key request.
+ * Updated latest version of all third party plugins
+ * Little design tweaks updated
+
+2016.04.30 - version 2.0
+ * Page Builder UI enhancements
+ * Font awesome stylesheet updated
+
+2016.04.19 - version 1.9
+ * WordPress 4.5 Compatible
+ * Updated latest version of all third party plugins
+ * Pagebuilder small issue fixed
+ * Some design tweaks updated
+
+2016.03.11 - version 1.8
+ * Updated latest version of all third party plugins
+ * WordPress 4.4.2 Compatible
+ * Timetable events builder module issue fixed
+ * Added global page layout option in BPanel
+ * WPML compatible issue updated
+ * Font awesome stylesheet updated
+ * Custom media upload updated
+ * Some translation text updated
+ * Some responsive issues updated
+
+2015.10.09 - version 1.7
+ * Updated latest version of all third party plugins
+ * jQuery nicescroll issue fixed.
+
+2015.08.22 - version 1.6
+ * Seo title metabox issue fixed
+ * WordPress 4.3 Compatible
+ * Language files updated
+ * Font Awesome Icons 4.4.0 updated
+ * BuddyPress widgets in page builder issue fixed
+ * Updated latest version of all third party plugins
+ * Some buddha panel issues fixed
+
+2015.07.10 - version 1.5
+ * One Column shortcode issue fixed
+ * Captcha for contact form added
+
+2015.06.24 - version 1.4
+ * Fixed XSS vulnerability in prettyPhoto jQuery library
+ * button shortcode issue fixed
+ * upcoming events shortcode issue fixed
+
+2015.04.24 - version 1.3
+ * Fixed XSS vulnerability
+ * Updated to TGM Plugin 2.4.1
+ * WordPress 4.2 Compatible
+ * Updated latest version of all third party plugins
+ * BPanel options issues fixed
+
+2015.04.02 - version 1.2
+ * Flat icons removed from theme files
+ * Apple favicon image save issue fixed
+ * Woocommerce category listing issue fixed
+ * Some design tweaks updated
+ * Dummy content xml file updated
+
+2015.03.19 - version 1.1
+ * Added cart link in header
+ * All plugins compatible checked
+ * Some design tweaks fixed
+
+2015.02.27 - version 1.0
+ * First release!
