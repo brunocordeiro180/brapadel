@@ -32,6 +32,18 @@ define('DB_PASSWORD', 'brapadel2019');
 /** Nome do host do MySQL */
 define('DB_HOST', 'mysql995.umbler.com');
 
+// define('DB_NAME', 'brapadel');
+
+// /** Usuário do banco de dados MySQL */
+// define('DB_USER', 'root');
+
+// /** Senha do banco de dados MySQL */
+// define('DB_PASSWORD', 'root');
+
+// /** Nome do host do MySQL */
+// define('DB_HOST', 'localhost');
+
+
 /** Charset do banco de dados a ser usado na criação das tabelas. */
 define('DB_CHARSET', 'utf8mb4');
 
@@ -83,7 +95,9 @@ $table_prefix  = 'wp_';
  *
  * @link https://codex.wordpress.org/pt-br:Depura%C3%A7%C3%A3o_no_WordPress
  */
-define('WP_DEBUG', true);
+define('WP_DEBUG', false);
+
+define('ALLOW_UNFILTERED_UPLOADS', true);
 
 /* Isto é tudo, pode parar de editar! :) */
 
