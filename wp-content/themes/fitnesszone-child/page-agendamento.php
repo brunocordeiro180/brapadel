@@ -6,6 +6,13 @@ if(is_array(get_userdata(wp_get_current_user()->ID)->roles)){
   $capitalized_value = strtoupper(get_userdata(wp_get_current_user()->ID)->roles);
 }
 
+// $_GET['socios'] = 0;
+// $_GET['horario_inicial'] = 0;
+// $_GET['horario_final'] = 0;
+// $_GET['raquetes'] = 0;
+// $_GET['bolinhas'] = 0;
+// $_GET['date'] = 0;
+
 if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !== true ): ?>
 
   <script type="text/javascript">
@@ -26,6 +33,10 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
   
   </script>
   <style>
+    .jsCalendar table{
+      box-shadow: none !important;
+    }
+
     @media only screen and (max-width: 767px) {
 			.steps li {
 				color: white;
@@ -223,18 +234,18 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                   clubes_quadras = <?php echo json_encode($clube_quadras); ?>;
 
                   jQuery('.clubes__select').change(function(){
+                
                     // alert("earrerar");
                     clubes_quadras.forEach(element => {
                       var nome_clube = element['Clube'].split(" ");
                       nome_clube = nome_clube[1];
-              
                       if(nome_clube == jQuery(this).val()){
                         tamanho = parseInt(element['Quadra']);
                       }
                     });
                   })
                   jQuery('.clubes__button').click(function(){
-                    window.location.href = 'https://brapadel.com.br/agendamento?clubes=' + jQuery('.clubes__select').val() + '&qtd_quadras=' + tamanho  + '&reservation__types=true';
+                    window.location.href =  window.location.href.split('?')[0] + '?clubes=' + jQuery('.clubes__select').val() + '&qtd_quadras=' + tamanho  + '&reservation__types=true';
                   });
                 </script>
               </div>
@@ -304,13 +315,13 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                 <a class="reservation__types--button clubes__button--before before__button">Voltar</a>
                 <script type="text/javascript">
                   jQuery('.reservation__types--button.clubes__button--before').click(function(){
-                    window.location.href = 'https://brapadel.com.br/agendamento';
+                    window.location.href =  window.location.href.split('?')[0];
                   });
                 </script>
                 <a class="reservation__types--button clubes__button--next next__button">Próximo</a>
                 <script type="text/javascript">
                   jQuery('.reservation__types--button.clubes__button--next').click(function(){
-                    window.location.href = 'https://brapadel.com.br/agendamento?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&socios=' + jQuery('#types__select_first').val() + '&reservation__dates=true';
+                    window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&socios=' + jQuery('#types__select_first').val() + '&reservation__dates=true';
                   });
                 </script>
               </div>
@@ -365,26 +376,68 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           <div class="row" style="padding-top: 10%;">
             <div class="parte1" style="float: left; width: 70%;">
               <h2>Selecione a data da reserva</h2>
-              <input onclick="pureJSCalendar.open('dd.MM.yyyy', 20, 30, 1, '2018-5-5', '2019-8-20', 'example', 20);" type="text" id="example">
-              
-              <!-- <div id="datepicker"></div>
-              
-
+              <!-- <input data-date-inline-picker="true" onclick="pureJSCalendar.open('dd.MM.yyyy', 20, 30, 1, '2018-5-5', '2019-8-20', 'example', 20);" type="text" id="example"> -->
+              <div id="my-calendar" data-language="pt" ></div>
               <script>
-              $( function() {
-                $( "#datepicker" ).datepicker();
-              } );
-              </script> -->
+                var element = document.getElementById("my-calendar");
+                var date = 0;
+                var newDate;
+                // Create the calendar
+                var myCalendar = jsCalendar.new(element, "01/01/2018",{
+
+                  // language
+                  language : "pt",
+                  // Enable/Disable date's number zero fill
+                  zeroFill : false,
+                  monthFormat : "month",
+                  dayFormat : "D",
+                  firstDayOfTheWeek: 1,
+                  navigatorPosition : "both",
+                  min : false,
+                  max : false
+
+                });
+
+                function dataAtualFormatada(date){
+                  var data = date,
+                      dia  = data.getDate().toString(),
+                      diaF = (dia.length == 1) ? '0'+dia : dia,
+                      mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+                      mesF = (mes.length == 1) ? '0'+mes : mes,
+                      anoF = data.getFullYear();
+                  return diaF+"/"+mesF+"/"+anoF;
+                }
+                
+                jQuery("#my-calendar table").css('box-shadow', '0px');
+                jQuery("#my-calendar table td").removeClass('jsCalendar-current');
+
+                jQuery("#my-calendar table td").click(function(){
+                  jQuery("#my-calendar table td").removeClass('jsCalendar-current');
+                  jQuery(this).addClass('jsCalendar-current');
+                });
+
+                myCalendar.onDateClick(function(event, date){
+                    // date = date;
+                    date = dataAtualFormatada(date);
+                    date = date.replace(/\//g, '.');
+                    newDate = date;
+                    console.log(date);
+                });
+
+             
+
+              </script>
+
               <a class="date__button before__button data-before">Voltar</a>
               <script type="text/javascript">
                 jQuery('.data-before').click(function(){
-                  window.location.href = 'https://brapadel.com.br/agendamento?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra') + '&reservation__types=true';
+                  window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra') + '&reservation__types=true';
                 });
               </script>
               <a class="date__button next__button proximo-button">Próximo</a>
               <script type="text/javascript">
                 jQuery('.proximo-button').click(function(){
-                  window.location.href = 'https://brapadel.com.br/agendamento?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&socios=' + getUrlParameter('socios') + '&date=' + jQuery("#example").val() + '&reservation__hours=true';
+                  window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&socios=' + getUrlParameter('socios') + '&date=' + newDate + '&reservation__hours=true';
                 });
               </script>
             </div>
@@ -864,7 +917,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                 <a class="hours__button before__button hours-before">Voltar</a>
                 <script type="text/javascript">
                   jQuery('.hours-before').click(function(){
-                    window.location.href = 'https://brapadel.com.br/agendamento?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra') + '&socios=' + getUrlParameter('socios') + '&reservation__dates=true';
+                    window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra') + '&socios=' + getUrlParameter('socios') + '&reservation__dates=true';
                   });
                 </script>
                 <a class="hours__button next__button hours-next">Próximo</a>
@@ -924,7 +977,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
 
                   jQuery('.hours-next').click(function(){
                     if(validaHora()){
-                      window.location.href = 'https://brapadel.com.br/agendamento?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + quadra + '&socios=' + getUrlParameter('socios') + '&date=' + getUrlParameter('date') + '&horario_inicial=' + horario_inicial + '&horario_final=' + horario_final + '&reservation_extras=true';
+                      window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + quadra + '&socios=' + getUrlParameter('socios') + '&date=' + getUrlParameter('date') + '&horario_inicial=' + horario_inicial + '&horario_final=' + horario_final + '&reservation_extras=true';
                     }else{
                  
                       alert("Horário Inválido!");
@@ -1110,7 +1163,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
               <a class="extras__button before__button extras-before">Voltar</a>
               <script type="text/javascript">
                 jQuery('.extras-before').click(function(){
-                  window.location.href = 'https://brapadel.com.br/agendamento?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra') + '&socios=' + getUrlParameter('socios') + '&date=' +  getUrlParameter('date') + '&reservation__hours=true';
+                  window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra') + '&socios=' + getUrlParameter('socios') + '&date=' +  getUrlParameter('date') + '&reservation__hours=true';
                 });
               </script>
               <a class="extras__button next__button extras-next">Próximo</a>
@@ -1156,7 +1209,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                   }
 
                   if(validaHora()){
-                    window.location.href = 'https://brapadel.com.br/agendamento?clubes=' + getUrlParameter('clubes') + '&socios=' + getUrlParameter('socios') + '&date=' +  getUrlParameter('date') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra') + '&horario_inicial=' + getUrlParameter('horario_inicial') + '&horario_final=' + getUrlParameter('horario_final') + '&raquetes=' + jQuery('#raquetes_select').val() + '&bolinhas=' + jQuery('#bolinhas_select').val() + '&reservation__payment=true';
+                    window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&socios=' + getUrlParameter('socios') + '&date=' +  getUrlParameter('date') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra') + '&horario_inicial=' + getUrlParameter('horario_inicial') + '&horario_final=' + getUrlParameter('horario_final') + '&raquetes=' + jQuery('#raquetes_select').val() + '&bolinhas=' + jQuery('#bolinhas_select').val() + '&reservation__payment=true';
                   }else{
                     alert("Horário Inválido!");
                   }
@@ -1245,7 +1298,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             <a class="extras__button before__button pay-before">Voltar</a>
             <script type="text/javascript">
               jQuery('.pay-before').click(function(){
-                window.location.href = 'https://brapadel.com.br/agendamento?clubes=' + getUrlParameter('clubes') + '&socios=' + getUrlParameter('socios') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra')  + '&date=' +  getUrlParameter('date') + '&horario_inicial=' + getUrlParameter('horario_inicial') + '&horario_final=' + getUrlParameter('horario_final') + '&reservation_extras=true';
+                window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&socios=' + getUrlParameter('socios') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra')  + '&date=' +  getUrlParameter('date') + '&horario_inicial=' + getUrlParameter('horario_inicial') + '&horario_final=' + getUrlParameter('horario_final') + '&reservation_extras=true';
               });
             </script>
             <a id="confirmar-reserva" class="extras__button next__button" style="float: left;display:none;">Confirmar reserva</a>
