@@ -186,6 +186,14 @@
 			  <div class="dt-sc-hr-invisible-large"></div>
           </div>
       </div><?php
-    endwhile;
+	endwhile;
+	
+	if( have_posts() ){
+		while( have_posts() ){
+			the_post();
+
+			the_title();
+		}
+	}
 
 get_footer(); ?>

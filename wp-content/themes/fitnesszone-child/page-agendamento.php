@@ -374,18 +374,49 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
       <div class="row" style="padding-bottom: 20% !important;">
         <div class="col-md-8 col-md-offset-2 col-sm-12">
           <div class="row" style="padding-top: 10%;">
-            <div class="parte1" style="float: left; width: 70%;">
+            <div class="parte1" style="float: left; width: 70%; margin-bottom: 6%;">
+              <?php
+
+                $clube_datas_disabled = array();
+                $aux = array();
+                if( have_rows('clubes_datas_disabled') ):
+                  // loop through the rows of data
+                  $i = 0;
+                  while ( have_rows('clubes_datas_disabled') ) : the_row();
+                    foreach (get_sub_field('datas') as $key => $data) {
+                      array_push($aux, $data['data_disabled']);
+                    }
+                    $clube_datas_disabled[get_sub_field('clube_disabled')] = $aux;
+            
+                  endwhile;
+                endif;
+
+                $datas_disabled = $clube_datas_disabled[$_GET['clubes']];
+                $texto_datas = '';
+                foreach ($datas_disabled as $key => $data) {
+                  if($key == count($datas_disabled) - 1){
+                    $texto_datas = $texto_datas . $data; 
+                  }else{
+                    $texto_datas = $texto_datas . $data . ', ';
+                  }
+                }
+              
+              ?>
               <h2>Selecione a data da reserva</h2>
               <!-- <input data-date-inline-picker="true" onclick="pureJSCalendar.open('dd.MM.yyyy', 20, 30, 1, '2018-5-5', '2019-8-20', 'example', 20);" type="text" id="example"> -->
-              <div id="my-calendar" data-language="pt" ></div>
+              <strong>O clube não funcionará nos dias: <?php echo $texto_datas; ?></strong>
+              <div id="my-calendar" style="margin-bottom: 7%;" data-language="pt" ></div>
               <script>
+                var datas_disabled = <?php echo json_encode($datas_disabled); ?>;
                 var element = document.getElementById("my-calendar");
                 var date = 0;
                 var newDate;
                 // Create the calendar
-                var myCalendar = jsCalendar.new(element, "01/01/2018",{
+                var myCalendar = jsCalendar.new({
 
                   // language
+                  target : element,
+                  date : new Date(),
                   language : "pt",
                   // Enable/Disable date's number zero fill
                   zeroFill : false,
@@ -398,18 +429,20 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
 
                 });
 
+                myCalendar.min("now");
+
                 function dataAtualFormatada(date){
                   var data = date,
                       dia  = data.getDate().toString(),
                       diaF = (dia.length == 1) ? '0'+dia : dia,
-                      mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+                      mes  = (data.getMonth()+1).toString(), 
                       mesF = (mes.length == 1) ? '0'+mes : mes,
                       anoF = data.getFullYear();
                   return diaF+"/"+mesF+"/"+anoF;
                 }
                 
                 jQuery("#my-calendar table").css('box-shadow', '0px');
-                jQuery("#my-calendar table td").removeClass('jsCalendar-current');
+                // jQuery("#my-calendar table td").removeClass('jsCalendar-current');
 
                 jQuery("#my-calendar table td").click(function(){
                   jQuery("#my-calendar table td").removeClass('jsCalendar-current');
@@ -419,6 +452,9 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                 myCalendar.onDateClick(function(event, date){
                     // date = date;
                     date = dataAtualFormatada(date);
+
+                    permissao = !datas_disabled.includes(date);
+                    console.log(permissao);
                     date = date.replace(/\//g, '.');
                     newDate = date;
                     console.log(date);
@@ -437,7 +473,11 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
               <a class="date__button next__button proximo-button">Próximo</a>
               <script type="text/javascript">
                 jQuery('.proximo-button').click(function(){
-                  window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&socios=' + getUrlParameter('socios') + '&date=' + newDate + '&reservation__hours=true';
+                  if(permissao){
+                    window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&socios=' + getUrlParameter('socios') + '&date=' + newDate + '&reservation__hours=true';
+                  }else{
+                    alert("Data inválida");
+                  }
                 });
               </script>
             </div>
@@ -1368,13 +1408,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             }
             if(validaHora()){
               
-                var database = firebase.database();
-                console.log(database);
-                firebase.database().ref('reservas/' + '<?php echo get_current_user_id(); ?>').set({
-                  username: 't',
-                  email: 't: ',
-                  profile_picture : 't'
-                });
+               
                   var url_string = window.location.href;
                   var url = new URL(url_string);
                   var clubes = url.searchParams.get("clubes");
@@ -1411,7 +1445,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                         }
                     }).done(function( msg ) {
                       alert("Reserva Feita");
-                      window.location.replace("https://brapadel.com.br/minhas-reservas");
+                      window.location.replace(window.location.href.split('?')[0] + "minhas-reservas");
                     });       
                   }    
                 }else{
@@ -1438,7 +1472,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                         }
                     }).done(function( msg ) {
                       alert("Reserva Feita");
-                      window.location.replace("https://brapadel.com.br/minhas-reservas");
+                      window.location.replace(window.location.href.split('?')[0] + "minhas-reservas");
                     }); 
                   }
                 }
