@@ -1,14 +1,20 @@
 <?php acf_form_head(); ?>
 <?php get_header(); ?>
 
-<!-- <style>
+<style>
+    .ui_tpicker_second{
+        display: none !important;
+    }
 
-</style> -->
+    .ui_tpicker_second::before {
+      display: none !important;
+    }
+</style>
 
 <section class="reservation__block">
     <div class="container">
         <h1>Editar Reserva</h1>
-        <div style="width: 50%;">
+        <div>
         <?php  $args = array(
             'post_type'   => 'reservab',
             'author'      => $user
@@ -16,14 +22,14 @@
 
             $current_post = get_post($_GET['reservaid']);
             $author_id = $current_post->post_author;
-            
+            $id_post = 0;
            $reservas = new WP_Query( $args );
             if($reservas->have_posts() ) {
                 while($reservas->have_posts() ){
                    $reservas->the_post();
                    $id = get_the_id(); 
                    if($id == $_GET['reservaid']){
-                    
+                        $id_post = $id;
                         $options = array(
                             'fields' => array(
                                 'clube',
@@ -48,34 +54,8 @@
             </div>
     </div>
 </section>
-
 <script>
 
-    <?php
-        $intervaloHorario = array();
-        foreach ($horarios as $key => $hora) {
-        $encontrou = false;
-        foreach ($todosHorarios as $horaCompleta) {
-            if($hora == $horaCompleta['horario_entrada']){
-            $encontrou = true;
-            for ($i=$key; $horarios[$i] != $horaCompleta['horario_saida']; $i++) { 
-                array_push($intervaloHorario, $horarios[$i]);
-            }
-            }
-        }
-        if($encontrou == true){
-            ?> <option value="<?php echo $hora; ?>" disabled><?php echo $hora; ?></option> <?php
-            
-        }else{
-            if(in_array($hora, $intervaloHorario)){
-            ?> <option value="<?php echo $hora; ?>" disabled><?php echo $hora; ?></option> <?php
-            }else{
-            ?><option value="<?php echo $hora; ?>"><?php echo $hora; ?></option> <?
-            }
-        }
-        }
-        
-    ?>
 
     function validaHora(){
 
@@ -134,7 +114,7 @@
 
     jQuery(".acf-form-submit .acf-button").click(function(e){
         if(validaHora()){
-            
+            <?php update_field('editada', true, $id_post); ?>
         }else{
             alert("Horário Inválido");
             e.preventDefault();

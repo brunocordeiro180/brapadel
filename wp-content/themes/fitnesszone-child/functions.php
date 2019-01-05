@@ -20,4 +20,14 @@ function theme_scripts_styles() {
 
 }
 
+function remove_acf_time_picker_seconds() { ?>
+  <style>
+    .ui_tpicker_second,
+    .ui_tpicker_second::before {
+      display: none !important;
+    }
+  </style>
+<?php }
+add_action('admin_head', 'remove_acf_time_picker_seconds');
+
 ?>
