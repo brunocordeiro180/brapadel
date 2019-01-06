@@ -392,19 +392,24 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                 endif;
 
                 $datas_disabled = $clube_datas_disabled[$_GET['clubes']];
+
                 $texto_datas = '';
-                foreach ($datas_disabled as $key => $data) {
-                  if($key == count($datas_disabled) - 1){
-                    $texto_datas = $texto_datas . $data; 
-                  }else{
-                    $texto_datas = $texto_datas . $data . ', ';
+                if(isset($datas_disabled) && $datas_disabled != null && $datas_disabled != ''){
+                  foreach ($datas_disabled as $key => $data) {
+                    if($key == count($datas_disabled) - 1){
+                      $texto_datas = $texto_datas . $data; 
+                    }else{
+                      $texto_datas = $texto_datas . $data . ', ';
+                    }
                   }
                 }
               
               ?>
               <h2>Selecione a data da reserva</h2>
               <!-- <input data-date-inline-picker="true" onclick="pureJSCalendar.open('dd.MM.yyyy', 20, 30, 1, '2018-5-5', '2019-8-20', 'example', 20);" type="text" id="example"> -->
-              <strong>O clube não funcionará nos dias: <?php echo $texto_datas; ?></strong>
+              <?php if($texto_datas != ''){ ?>
+                <strong>O clube não funcionará nos dias: <?php echo $texto_datas; ?></strong>
+              <?php } ?>
               <div id="my-calendar" style="margin-bottom: 7%;" data-language="pt" ></div>
               <script>
                 var datas_disabled = <?php echo json_encode($datas_disabled); ?>;
@@ -448,12 +453,13 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                   jQuery("#my-calendar table td").removeClass('jsCalendar-current');
                   jQuery(this).addClass('jsCalendar-current');
                 });
-
+                var permissao = true;
                 myCalendar.onDateClick(function(event, date){
                     // date = date;
                     date = dataAtualFormatada(date);
-
-                    permissao = !datas_disabled.includes(date);
+                    if(datas_disabled != null){
+                      permissao = !datas_disabled.includes(date);
+                    }
                     console.log(permissao);
                     date = date.replace(/\//g, '.');
                     newDate = date;
