@@ -11,7 +11,7 @@
   transform: translate(-50%) !important;
 }
 .next__button{
-  color: #009bdb;
+  color: #009bdb !important;
   font-weight: bold;
   border: 1px solid #009bdb;
   padding: 10px 35px;
@@ -19,7 +19,7 @@
   height: 50px;
 }
 .before__button{
-  color: #009bdb;
+  color: #009bdb !important;
   font-weight: bold;
   border: 1px solid #009bdb;
   padding: 10px 35px;
