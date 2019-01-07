@@ -34,7 +34,7 @@ add_action('admin_head', 'remove_acf_time_picker_seconds');
 add_filter('woocommerce_disable_admin_bar', '_wc_disable_admin_bar', 10, 1);
  
 function _wc_disable_admin_bar($prevent_admin_access) {
-    if (!current_user_can('example_role')) {
+    if (!current_user_can('gerente')) {
         return $prevent_admin_access;
     }
     return false;
@@ -43,7 +43,7 @@ function _wc_disable_admin_bar($prevent_admin_access) {
 add_filter('woocommerce_prevent_admin_access', '_wc_prevent_admin_access', 10, 1);
  
 function _wc_prevent_admin_access($prevent_admin_access) {
-    if (!current_user_can('example_role')) {
+    if (!current_user_can('gerente')) {
         return $prevent_admin_access;
     }
     return false;
