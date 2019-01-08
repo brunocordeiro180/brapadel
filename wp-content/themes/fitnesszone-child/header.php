@@ -46,7 +46,7 @@
 								if(!is_user_logged_in()):
 									$loginurl = ( class_exists('c_ws_plugin__s2member_check_activation') ) ? wp_login_url() : wp_login_url(get_permalink()); ?>
 									<li><a title="<?php _e('Login', 'fitnesszone'); ?>" href="<?php echo $loginurl; ?>"><span class="fa fa-sign-in"></span><?php _e('Member Login', 'fitnesszone'); ?></a></li>
-									<li><a title="<?php _e('Register Now', 'fitnesszone'); ?>" href="<?php echo wp_registration_url(); ?>"><span class="fa fa-user"></span><?php _e('Register', 'fitnesszone'); ?></a></li><?php
+									<li><a title="<?php _e('Register Now', 'fitnesszone'); ?>" href="/registration"><span class="fa fa-user"></span><?php _e('Register', 'fitnesszone'); ?></a></li><?php
 								else: ?>
 									<li><a title="<?php _e('Logout', 'fitnesszone'); ?>" href="<?php echo wp_logout_url(get_permalink()); ?>"><span class="fa fa-sign-out"></span><?php _e('Logout', 'fitnesszone'); ?></a></li>
 									<li><a title="<?php _e('My Profile', 'fitnesszone'); ?>" href="<?php 
