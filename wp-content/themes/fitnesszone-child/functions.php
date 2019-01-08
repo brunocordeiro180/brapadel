@@ -49,4 +49,23 @@ function _wc_prevent_admin_access($prevent_admin_access) {
     return false;
 }
 
+function my_login_logo_one() { 
+  ?> 
+  <style type="text/css"> 
+  body.login div#login h1 a {
+   background-image: url(http://brapadel-com-br.umbler.net/wp-content/uploads/2019/01/brapadelLogoG-8.png);  //Add your own logo image in this url 
+   height:1px;
+		width:320px;
+		background-size: 185px 180px;
+		background-repeat: no-repeat;
+    padding-bottom: 100px;
+  } 
+
+  #login{
+    padding: 5% 0% 0% !important;
+  }
+  </style>
+   <?php 
+} add_action( 'login_enqueue_scripts', 'my_login_logo_one' );
+
 ?>
