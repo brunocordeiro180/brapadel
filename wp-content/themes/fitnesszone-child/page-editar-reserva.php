@@ -60,6 +60,13 @@
 </section>
 <script>
 
+    function isWeekend($date) {
+        if(date('N', strtotime($date)) == 6 || date('N', strtotime($date)) == 7){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     function validaHora(){
 

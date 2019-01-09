@@ -68,12 +68,4 @@ function my_login_logo_one() {
    <?php 
 } add_action( 'login_enqueue_scripts', 'my_login_logo_one' );
 
-function isWeekend($date) {
-  if(date('N', strtotime($date)) == 6 || date('N', strtotime($date)) == 7){
-    return true;
-  }else{
-    return false;
-  }
-}
-
 ?>
