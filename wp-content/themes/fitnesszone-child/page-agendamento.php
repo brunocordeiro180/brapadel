@@ -113,10 +113,10 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           </script>
         </div>
         
-        <div class="parte2 col-lg-2 col-sm" style="float: right; border-left: 1px solid black; padding-left: 2%;" >  
+        <!-- <div class="parte2 col-lg-2 col-sm" style="float: right; border-left: 1px solid black; padding-left: 2%;" >  
           <h3><strong style="margin-bottom: 1px;">Resumo da Reserva</strong></h3>
           <h5>Total a Pagar: $0,00</h5>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -188,10 +188,10 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
               });
             </script>
           </div>
-          <div class="parte2 col-lg-2 col-sm" style="border-left: 1px solid black; padding-left: 2%;">  
+          <!-- <div class="parte2 col-lg-2 col-sm" style="border-left: 1px solid black; padding-left: 2%;">  
             <h3><strong style="margin-bottom: 1px;">Resumo da Reserva</strong></h3>
             <h5>Total a Pagar: $0,00</h5>
-          </div>
+          </div> -->
         </div>
       </div>
     </section>
@@ -352,7 +352,9 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         </div>
         <div class="parte2 col-lg-3 col-sm" style="height: 270%; border-left: 1px solid black; padding-left: 2%;">  
           <h3><strong style="margin-bottom: 1px;">Resumo da Reserva</strong></h3>
+          <?php if($socios > 0){ ?>
           <p style="margin-bottom: 1px;">Valor por Sócio: $<?php echo $sociosString; ?></p>
+          <? } ?>
           <p style="margin-bottom: 1px;">Valor por Não Sócio: $<?php echo $jogadoresString; ?></p>
           <h5>Total a Pagar: $<?php echo $totalString; ?></h5>
         </div>

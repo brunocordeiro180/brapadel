@@ -138,14 +138,14 @@
         $diferenca += 2;
  
         if($hoje == 'true' && ($diferenca/5 < 0)){
-            header("Location: " . $_SERVER['REQUEST_URI'] . "?cancelamento=false");
+            header("Location: " . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) . "?cancelamento=false");
             exit(); 
         }else{
             if($pago){
                 update_field('credito', floatval($credito) + floatval($valor_reserva), 'user_' . $user);
             }
             update_field( $field_key, $value, $_POST['reserva_id']);
-            header("Location: " . $_SERVER['REQUEST_URI'] . "?cancelamento=true");
+            header("Location: " . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) . "?cancelamento=true");
             exit(); 
         }
         
