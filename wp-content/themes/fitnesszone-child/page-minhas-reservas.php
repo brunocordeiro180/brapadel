@@ -20,6 +20,7 @@
     
         $user = wp_get_current_user()->ID; 
         $credito = get_field( 'credito', 'user_' . $user );
+        $divida = get_field( 'divida', 'user_' . $user );
     
     ?>
 
@@ -28,7 +29,8 @@
         <div class="row">
             <div class="col-sm">
                 <h2>Minhas Reservas</h2>
-                <p>Crédito: $<?php echo number_format($credito, 2); ?></p>
+                <strong>Crédito: $<?php echo number_format($credito, 2); ?></strong>
+                <strong>| Dívida: $<?php echo number_format($divida, 2); ?></strong>
             </div>
             <div style="width: 0%;" class="col-sm">
             <!-- <h4 style="float: right;">Crédito: $0,00</h4> -->
@@ -51,10 +53,12 @@
             <table style="width: 60%;" class="table-reservas">
                 <?php
                 $reserva_id = 0;
+                $i = 0;
                 while($reservas->have_posts() ) :
                    $reservas->the_post();
                    $id = get_the_id();
                    if(get_field("status", $id)){
+                    $i++;
                     ?>
                     <tr>
                         <td style="padding-bottom: 20px; padding-top: 0px;"><h4><?php echo the_title();  ?></h4></td>
@@ -72,6 +76,10 @@
             else :
             ?><p style="position: absolute;  margin-top: 5%; padding-bottom: 40%;">Nenhuma reserva encontrada</p><?php
             endif;
+            if($i == 0){
+                ?>
+                <p style="position: absolute; margin-left: 1%;  margin-top: 2%; padding-bottom: 40%;">Nenhuma reserva encontrada</p><?php
+            }
         ?>
     </div>
 </section>
@@ -127,8 +135,11 @@
     
     $valor_reserva = 0;
     $valor_reserva = get_field('valor', $_POST['reserva_id']); 
-    update_field('credito', floatval($credito) + floatval($valor_reserva), 'user_' . $user); 
-
+    $pago = get_field('pago', $_POST['reserva_id']);
+    
+    if($pago){
+        update_field('credito', floatval($credito) + floatval($valor_reserva), 'user_' . $user); 
+    }
 ?>
 
 <?php get_footer(); ?>

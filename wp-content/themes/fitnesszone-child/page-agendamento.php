@@ -125,19 +125,19 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
 
   <?php 
 
-    $preco_atleta_comum_baixa = get_field('preco_atleta_comum_baixa');
-    $preco_atleta_comum_alta = get_field('preco_atleta_comum_alta');
-    $preco_atleta_socio_baixa = get_field('preco_atleta_socio_baixa');
-    $preco_atleta_socio_alta = get_field('preco_atleta_socio_alta');
+    $preco_atleta_comum_baixa = floatval(str_replace(",", ".", get_field('preco_atleta_comum_baixa')));
+    $preco_atleta_comum_alta = floatval(str_replace(",", ".", get_field('preco_atleta_comum_alta')));
+    $preco_atleta_socio_baixa = floatval(str_replace(",", ".", get_field('preco_atleta_socio_baixa')));
+    $preco_atleta_socio_alta = floatval(str_replace(",", ".", get_field('preco_atleta_socio_alta')));
 
-    $preco_atleta_comum_baixa_pagamento_clube = get_field('preco_atleta_comum_baixa_pagamento_clube');
-    $preco_atleta_comum_alta_pagamento_clube = get_field('preco_atleta_comum_alta_pagamento_clube');
-    $preco_atleta_socio_baixa_pagamento_clube = get_field('preco_atleta_socio_baixa_pagamento_clube');
-    $preco_atleta_socio_alta_pagamento_clube = get_field('preco_atleta_socio_alta_pagamento_clube');
-    
-    $preco_raquete = get_field('aluguel_raquete');
-    $preco_bolinhas = get_field('bolinhas');
-    $luz = get_field('luz');
+    $preco_atleta_comum_baixa_pagamento_clube = floatval(str_replace(",", ".", get_field('preco_atleta_comum_baixa_pagamento_clube')));
+    $preco_atleta_comum_alta_pagamento_clube = floatval(str_replace(",", ".", get_field('preco_atleta_comum_alta_pagamento_clube')));
+    $preco_atleta_socio_baixa_pagamento_clube = floatval(str_replace(",", ".", get_field('preco_atleta_socio_baixa_pagamento_clube')));
+    $preco_atleta_socio_alta_pagamento_clube = floatval(str_replace(",", ".", get_field('preco_atleta_socio_alta_pagamento_clube')));
+
+    $preco_raquete = floatval(str_replace(",", ".",get_field('aluguel_raquete')));
+    $preco_bolinhas = floatval(str_replace(",", ".", get_field('bolinhas')));
+    $luz = floatval(str_replace(",", ".", get_field('luz')));
 
  
     
@@ -398,9 +398,8 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             $clube_reserva = get_field("clube", $id);
             $quadra_reserva = get_field("quadra", $id);
             $quadra_reserva_obj = get_field_object("quadra", $id);
-      
             if($data_reserva == $_GET['date'] && $clube_reserva == intval($_GET['clubes'])){
-
+              
               $reserva_hora_inicial = get_field("hora_inicial", $id);
               $reserva_hora_final = get_field("hora_final", $id);
 
@@ -421,10 +420,11 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         foreach ($horarios as $key => $hora) {
           foreach ($todosHorarios as $horaCompleta) {
             if($hora == $horaCompleta['horario_entrada']){
+              
               for ($i=$key; $horarios[$i] != $horaCompleta['horario_saida']; $i++) { 
-               
+                
                 array_push($intervaloHorario, $horarios[$i]);
-               
+                
                 if($quadra_horario[$horaCompleta['quadra']]){
                   if(in_array($horarios[$i], $quadra_horario[$horaCompleta['quadra']]) == false){
                     array_push($quadra_horario[$horaCompleta['quadra']], $horarios[$i]);
@@ -440,9 +440,10 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             }
           }
         }
-
-        $clube_escolhido = "Clube " + $_GET['clubes'];
+  
+        $clube_escolhido = "Clube " . $_GET['clubes'];
         $qtd_quadras = 0;
+        wp_reset_query();
         if( have_rows('clube_quadras') ):
           // loop through the rows of data
           while ( have_rows('clube_quadras') ) : the_row();
@@ -453,8 +454,8 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         endif;
 
         $qtd_quadras = $_GET['qtd_quadras'];
-        $quadra_horario[1] = $quadra_horario[""];
-        unset($quadra_horario[""]);
+        // $quadra_horario[1] = $quadra_horario[""];
+        // unset($quadra_horario[""]);
         // echo "heakjhakesj " . var_dump($quadra_horario);
         // echo "aqui " . $quadra_horario[2][1] . " falou";
       ?>
@@ -1323,6 +1324,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                               data : data,
                               quadra : quadra,
                               raquetes : raquetes,
+                              forma_pagamento : 0,
                               valor : <?php echo $totalClube; ?>,
                               bolinhas : 0},
                       success: function(){
@@ -1350,6 +1352,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                               data : data,
                               quadra : quadra,
                               raquetes : raquetes,
+                              forma_pagamento : 1,
                               valor : <?php echo $total; ?>,
                               bolinhas : 0},
                       success: function(){
@@ -1492,12 +1495,17 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
 
     // save a basic text value
     $field_key = "usuario";
-    $value = $current_user->user_firstname . " " . $current_user->user_lastname;
+    $value = $current_user->ID;
     update_field( $field_key, $value, $post_id );
 
     $field_key = "valor";
     $value = $_POST['valor'];
+    update_field( $field_key, $value, $post_id ); ; 
+
+    $field_key = "forma_de_pagamento";
+    $value = $_POST['forma_pagamento'];
     update_field( $field_key, $value, $post_id ); 
+    
     wp_publish_post( $post_id ); 
 
     $user_data = get_userdata( get_currentuserinfo()->ID );
