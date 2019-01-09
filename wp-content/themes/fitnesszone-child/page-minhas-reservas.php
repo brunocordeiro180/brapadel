@@ -64,7 +64,11 @@
                         <td style="padding-bottom: 20px; padding-top: 0px;"><h4><?php echo the_title();  ?></h4></td>
                         <td style="padding-bottom: 20px; padding-top: 0px;"><h4><?php echo get_field("data", $id);  ?></h4></td>
                         <td style="padding-bottom: 20px; padding-top: 0px;"><a href="../editar-reserva/?reservaid=<?php echo $id; ?>">Editar Reserva</a></td>
-                        <td ><button id="<?php echo $id; ?>" onclick="cancelarReserva(<?php echo get_the_id(); $reserva_id = get_the_id();?>);" href="">Cancelar Reserva</button></td>
+                        <td >
+                            <form action="" method="post" onsubmit="return confirmacao()">
+                                <input style="display: none;" name="reserva_id" type="number" value="<?php echo get_the_id(); $reserva_id = get_the_id();?>">
+                                <input type="submit" value="Cancelar Reserva">
+                            </form>
                     </tr>
                     <?php
                    }
@@ -86,19 +90,67 @@
 
 <script>
 
-    function cancelarReserva(reserva_id) {
-       
-        jQuery.ajax({
-            type: "POST",
-            url: window.location.href.split('?')[0],
-            data: { reserva_id: reserva_id }
-        }).done(function( msg ) {
-            location.reload();
-            alert("Reserva Cancelada");
-        });    
-    };
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var cancelamento = url.searchParams.get("cancelamento");
 
+    function confirmacao(){
+        var ask = window.confirm("Deseja cancelar reserva?");
+        if(ask){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    if(cancelamento == 'false'){
+        alert("Prazo para cancelamento expirado");
+    }else{
+        if(cancelamento == 'true'){
+            alert("Reserva Cancelada");
+        }
+    }
+    
 </script>
+
+<?php 
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        $field_key = "status";
+        $value = 0;
+
+        $valor_reserva = 0;
+        $valor_reserva = get_field('valor', $_POST['reserva_id']); 
+        $pago = get_field('pago', $_POST['reserva_id']);
+        $data = get_field('data', $_POST['reserva_id']);
+
+        $hora_inicial = get_field('hora_inicial', $_POST['reserva_id']);
+        $now  = date('H:i');
+        $now_date = str_replace(":", "/", date('d:m:Y'));
+
+        if($now_date == $data){
+            $hoje = 'true';
+        }else{
+            $hoje = 'false';
+        }
+        $diferenca = abs(strtotime($hora_inicial) - strtotime($now)) / 3600;
+        $diferenca += 2;
+ 
+        if($hoje == 'true' && ($diferenca/5 < 0)){
+            header("Location: " . $_SERVER['REQUEST_URI'] . "?cancelamento=false");
+            exit(); 
+        }else{
+            if($pago){
+                update_field('credito', floatval($credito) + floatval($valor_reserva), 'user_' . $user);
+            }
+            update_field( $field_key, $value, $_POST['reserva_id']);
+            header("Location: " . $_SERVER['REQUEST_URI'] . "?cancelamento=true");
+            exit(); 
+        }
+        
+    }
+?>
 
 <?php elseif(is_user_logged_in() && strpos(strtoupper(get_userdata(wp_get_current_user()->ID)->roles), 'bloqueado') !== false ): ?>
 
@@ -127,19 +179,5 @@
 
 <?php endif; ?>
 
-<?php 
-
-    $field_key = "status";
-    $value = 0;
-    update_field( $field_key, $value, $_POST['reserva_id']);
-    
-    $valor_reserva = 0;
-    $valor_reserva = get_field('valor', $_POST['reserva_id']); 
-    $pago = get_field('pago', $_POST['reserva_id']);
-    
-    if($pago){
-        update_field('credito', floatval($credito) + floatval($valor_reserva), 'user_' . $user); 
-    }
-?>
 
 <?php get_footer(); ?>
