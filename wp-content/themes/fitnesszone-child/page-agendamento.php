@@ -395,6 +395,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             $id = get_the_id();
 
             $data_reserva = get_field("data", $id);
+            $data_reserva = str_replace("/", ".", $data_reserva);
             $clube_reserva = get_field("clube", $id);
             $quadra_reserva = get_field("quadra", $id);
             $quadra_reserva_obj = get_field_object("quadra", $id);
@@ -454,6 +455,13 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         endif;
 
         $qtd_quadras = $_GET['qtd_quadras'];
+        // echo var_dump($quadra_horario);
+        if($quadra_horario[1] == null){
+          $quadra_horario = array(
+            0 => "25:00",
+            1 => array(0)
+          );
+        }
         // $quadra_horario[1] = $quadra_horario[""];
         // unset($quadra_horario[""]);
         // echo "heakjhakesj " . var_dump($quadra_horario);
@@ -472,7 +480,8 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                 ?>
               </tr>
               <tr>
-                <?php 
+                <?php
+                
                   for ($i=0; $i < $qtd_quadras; $i++) { 
                     if(in_array("06:00", $quadra_horario[($i + 1)])){
                       ?><td id="1-<?php echo ($i + 1); ?>" style="background-color: #ff5757; color: #000000c2;">6h - 6h30</td><?php
