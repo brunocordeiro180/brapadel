@@ -459,7 +459,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         $qtd_quadras = $_GET['qtd_quadras'];
         // echo var_dump($quadra_horario);
        
-        echo print_r($quadra_horario);
+        // echo print_r($quadra_horario);
         for ($i=0; $i < $qtd_quadras; $i++) { 
           if($quadra_horario[($i + 1)] == null){
             $quadra_horario[($i + 1)] = array(0);
