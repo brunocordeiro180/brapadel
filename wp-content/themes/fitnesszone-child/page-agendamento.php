@@ -162,7 +162,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         <br>
         <!-- <br><br><br><br><br> -->
         <div class="row">
-          <div class="parte1 col-sm col-lg-10" style="padding-right: 25%;">
+          <div class="parte1 col-sm col-lg-9" style="padding-right: 25%;">
             <h2 id="h2-desconto-socios">Desconto para sócios</h2>
             <h5 id="h5-selecione-socios">Selecione a quantidade de sócios</h5>
             <label id="label-selecione-socios" for="">Sócios</label>
@@ -188,10 +188,10 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
               });
             </script>
           </div>
-          <!-- <div class="parte2 col-lg-2 col-sm" style="border-left: 1px solid black; padding-left: 2%;">  
+          <div class="parte2 col-lg-3 col-sm" style="border-left: 1px solid black; padding-left: 2%;">  
             <h3><strong style="margin-bottom: 1px;">Resumo da Reserva</strong></h3>
-            <h5>Total a Pagar: $0,00</h5>
-          </div> -->
+            <h5>Clube <?php echo $_GET['clubes'];?></h5>
+          </div>
         </div>
       </div>
     </section>
@@ -210,9 +210,13 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         $total = $preco_atleta_comum_baixa * $jogadores + $preco_atleta_socio_baixa * $socios;
       }
     }else{
+      
       $total = 4 * $preco_atleta_comum_baixa;
     }
 
+    $totalSemSocio = 4 * $preco_atleta_comum_baixa;
+
+    $desconto = $totalSemSocio - $total;
     $totalString = number_format($total, 2);
 
     $sociosString = number_format(($socios * $preco_atleta_socio_baixa), 2);
@@ -352,10 +356,10 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         </div>
         <div class="parte2 col-lg-3 col-sm" style="height: 270%; border-left: 1px solid black; padding-left: 2%;">  
           <h3><strong style="margin-bottom: 1px;">Resumo da Reserva</strong></h3>
+          <p style="margin-bottom: 1px;">Clube <?php echo $_GET['clubes'];?></p>
           <?php if($socios > 0){ ?>
-          <p style="margin-bottom: 1px;">Valor por Sócio: $<?php echo $sociosString; ?></p>
-          <?php } ?>
-          <p style="margin-bottom: 1px;">Valor por Não Sócio: $<?php echo $jogadoresString; ?></p>
+          <p style="margin-bottom: 1px;"><?php echo $socios; ?>x desconto sócio: -R$<?php echo $desconto; ?>.00</p>
+          <?php }?>
           <h5>Total a Pagar: $<?php echo $totalString; ?></h5>
         </div>
       </div>
@@ -905,9 +909,11 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         </div>
         <div class="parte2 col-lg-3 col-sm" style="height: 300%; float: right; border-left: 1px solid black; padding-left: 2%;">  
           <h3><strong style="margin-bottom: 1px;">Resumo da Reserva</strong></h3>
+          <p style="margin-bottom: 1px;">Clube <?php echo $_GET['clubes']; ?></p>
           <p>Data: <?php echo str_replace(".", "/", $_GET['date']); ?></p>
-          <p style="margin-bottom: 1px;">Valor por Sócio: $<?php echo $sociosString; ?></p>
-          <p style="margin-bottom: 1px;">Valor por Não Sócio: $<?php echo $jogadoresString; ?></p>
+          <?php if($socios > 0){ ?>
+          <p style="margin-bottom: 1px;"><?php echo $socios; ?>x desconto sócio: -R$<?php echo $desconto; ?>.00</p>
+          <?php } ?>
           <h5>Total a Pagar: $<?php echo $totalString; ?></h5>
         </div>     
       </div>
@@ -933,16 +939,20 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
     $hora_inicial = explode(":", $hora_inicial);
     $hora_inicial = intval($hora_inicial[0]);
     $totalClube = 0;
+    $qualhorario = '';
 
     if(isWeekend($date)){
       if($hora_inicial >= 9){
         $horario_alta = true;
+        $qualhorario = "(horário alta)";
       }
     }else{
       if($hora_inicial >= 18){
         $horario_alta = true;
+        $qualhorario = "(horário alta)";
       }else{
         $horario_alta = false;
+        $qualhorario = "(horário baixa)";
       }
     }
 
@@ -1021,8 +1031,25 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
       }
 
       $hora_inicial = $_GET['horario_inicial'];
+      $hora_final = $_GET['horario_final'];
 
       $hora_inicial = explode(":", $hora_inicial);
+      $hora_final = explode(":", $hora_final);
+      $qtd30 = 0;
+
+      if($hora_final[1] == '30' || $hora_inicial[1] == '30'){
+        if((intval($hora_final[0]) - intval($hora_inicial[0])) == 2){
+          $qtd30 = 3;
+        }else{
+          $qtd30 = 1;
+        }
+      }else{
+        if((intval($hora_final[0]) - intval($hora_inicial[0])) == 2){
+          $qtd30 = 4;
+        }else{
+          $qtd30 = 2;
+        }
+      }
       
       if(($hora_inicial[0] >= 18) && ($hora_inicial[1] == 30 || $hora_inicial[1] == 0)){
         $total = $total + $luz;
@@ -1133,14 +1160,17 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         </div>
         <div class="parte2 col-lg-3 col-sm" style="border-left: 1px solid black; padding-left: 2%;">  
           <h3><strong style="margin-bottom: 1px;">Resumo da Reserva</strong></h3>
+            <p style="margin-bottom: 0px;">Clube <?php echo $_GET['clubes']; ?>&nbsp Quadra <?php echo $_GET['quadra']; ?></p>
             <p style="margin-bottom: 0px;">Data: <?php echo str_replace(".", "/", $_GET['date']); ?></p>
-            <p style="margin-bottom: 0px;">Horário de Entrada: <?php echo $_GET["horario_inicial"]; ?></p>
-            <p>Horário de Saída: <?php echo $_GET["horario_final"]; ?></p>
+            <p style="margin-bottom: 3px;">Entrada: <?php echo str_replace(":", "h", $_GET["horario_inicial"]); ?>&nbsp Saída: <?php echo str_replace(":", "h", $_GET["horario_final"]); ?></p>
+            <p style="margin-bottom: -5px;"><?php echo $qtd30; ?>x reserva de 30 minutos<?php echo $qualhorario; ?></p>
+            <?php if($socios > 0){ ?>
+            <p style="margin-bottom: 10px;"><?php echo $socios; ?>x desconto sócio: -R$<?php echo $desconto; ?>.00</p>
+            <?php } ?>
             <?php if($cobrandoLuz){ ?>  
-              <p style="margin-bottom: 1px;">Cobrança de luz: $<?php echo $luz; ?></p>
+              <p style="margin-bottom: 1px;">Adicional iluminação noturna: R$<?php echo $luz; ?>.00</p>
             <?php } ?>  
-            <p style="margin-bottom: 1px;">Valor por Sócio: $<?php echo $sociosString; ?></p>
-            <p style="margin-bottom: 1px;">Valor por Não Sócio: $<?php echo $jogadoresString; ?></p>
+            
             <h5>Total a Pagar: $<?php echo $totalString; ?></h5>
         </div>
       </div>
@@ -1244,20 +1274,22 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             </form>
         </div>
         <div class="parte2 col-lg3 col-sm resumo_pagamento" style="border-left: 1px solid black; padding-left: 2%;">  
-          <h3>Resumo da Reserva</h3>
+          <h3><strong style="margin-bottom: 1px;">Resumo da Reserva</strong></h3>
+          <p style="margin-bottom: 0px;">Clube <?php echo $_GET['clubes']; ?>&nbsp Quadra <?php echo $_GET['quadra']; ?></p>
           <p style="margin-bottom: 0px;">Data: <?php echo str_replace(".", "/", $_GET['date']); ?></p>
-          <p style="margin-bottom: 0px;">Horário de Entrada: <?php echo $_GET["horario_inicial"]; ?></p>
-          <p>Horário de Saída: <?php echo $_GET["horario_final"]; ?></p>
-          <p style="margin-bottom: 1px;">Valor por Sócio: $<?php echo $sociosString; ?></p>
-          <p style="margin-bottom: 1px;">Valor por Não Sócio: $<?php echo $jogadoresString; ?></p>
-          <?php if($cobrandoLuz){ ?>
-            <p style="margin-bottom: 1px;">Luz da Quadra: $<?php echo $luzString; ?></p>
+          <p style="margin-bottom: 3px;">Entrada: <?php echo str_replace(":", "h", $_GET["horario_inicial"]); ?>&nbsp Saída: <?php echo str_replace(":", "h", $_GET["horario_final"]); ?></p>
+          <p style="margin-bottom: -5px;"><?php echo $qtd30; ?>x reserva de 30 minutos<?php echo $qualhorario; ?></p>
+          <?php if($socios > 0){ ?>
+          <p style="margin-bottom: 10px;"><?php echo $socios; ?>x desconto sócio: -R$<?php echo $desconto; ?>.00</p>
           <?php } ?>
-          <?php if($raqueteString != '0.00'){ ?>
-            <p style="margin-bottom: 1px;">Valor das Raquetes: $<?php echo $raqueteString; ?></p>
+          <?php if($cobrandoLuz){ ?>  
+            <p style="margin-bottom: 1px;">Adicional iluminação noturna: R$<?php echo $luz; ?>.00</p>
           <?php } ?>
+          <?php if($_GET['raquetes'] != '0'){ ?> 
+            <p style="margin-bottom: 1px;"><?php echo $_GET['raquetes']; ?>x Aluguel Raquete: R$<?php echo $raqueteString; ?></p>
+          <?php } ?> 
           <?php if($_GET['bolinhas'] != '0'){ ?>
-            <p style="margin-bottom: 1px;">Valor das Bolinhas: $<?php echo $bolinhasString; ?></p>
+            <p style="margin-bottom: 10px;"><?php echo $_GET['bolinhas']; ?>x Bolinhas: R$<?php echo $bolinhasString; ?></p>
           <?php } ?>
           <h5 style="margin-bottom: 1px;">Total a Pagar Online: $<?php echo $totalString; ?></h5>
           <h5>Total a Pagar no Clube: $<?php echo $totalStringClube; ?></h5>
