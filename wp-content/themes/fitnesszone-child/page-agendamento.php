@@ -354,7 +354,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           <h3><strong style="margin-bottom: 1px;">Resumo da Reserva</strong></h3>
           <?php if($socios > 0){ ?>
           <p style="margin-bottom: 1px;">Valor por Sócio: $<?php echo $sociosString; ?></p>
-          <? } ?>
+          <?php } ?>
           <p style="margin-bottom: 1px;">Valor por Não Sócio: $<?php echo $jogadoresString; ?></p>
           <h5>Total a Pagar: $<?php echo $totalString; ?></h5>
         </div>
@@ -458,11 +458,12 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
 
         $qtd_quadras = $_GET['qtd_quadras'];
         // echo var_dump($quadra_horario);
-        if($quadra_horario[1] == null){
-          $quadra_horario = array(
-            0 => "25:00",
-            1 => array(0)
-          );
+       
+        echo print_r($quadra_horario);
+        for ($i=0; $i < $qtd_quadras; $i++) { 
+          if($quadra_horario[($i + 1)] == null){
+            $quadra_horario[($i + 1)] = array(0);
+          }
         }
         // $quadra_horario[1] = $quadra_horario[""];
         // unset($quadra_horario[""]);
