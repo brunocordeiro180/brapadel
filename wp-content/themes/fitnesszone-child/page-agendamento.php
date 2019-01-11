@@ -281,7 +281,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           <script>
             var datas_disabled = <?php echo json_encode($datas_disabled); ?>;
             var element = document.getElementById("my-calendar");
-            var date = 0;
+            var date2 = '0';
             var newDate;
             // Create the calendar
             var myCalendar = jsCalendar.new({
@@ -312,6 +312,26 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                   anoF = data.getFullYear();
               return diaF+"/"+mesF+"/"+anoF;
             }
+
+            function verificaData(date){
+              var today = new Date();
+              dia  = today.getDate().toString(),
+              diaF = (dia.length == 1) ? '0'+dia : dia,
+              mes  = (today.getMonth()+1).toString(), 
+              mesF = (mes.length == 1) ? '0'+mes : mes,
+              anoF = today.getFullYear();
+
+              var today = new Date(anoF, parseInt(mesF) - 1, diaF);
+              date_split = date.split("/");
+              var expireDate = new Date(date_split[2], parseInt(date_split[1]) - 1, date_split[0]);
+
+              if (today > expireDate) {
+                return false;
+              }else{
+                return true;
+              }
+
+            }
             
             jQuery("#my-calendar table").css('box-shadow', '0px');
             // jQuery("#my-calendar table td").removeClass('jsCalendar-current');
@@ -322,17 +342,17 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             });
             var permissao = true;
             myCalendar.onDateClick(function(event, date){
-                // date = date;
                 date = dataAtualFormatada(date);
                 if(datas_disabled != null){
                   permissao = !datas_disabled.includes(date);
                 }
+                date2 = date;
                 console.log(permissao);
-                date = date.replace(/\//g, '.');
-                newDate = date;
-                console.log(date);
+                newDate = date.replace(/\//g, '.');
+                
             });
 
+                
          
 
           </script>
@@ -347,7 +367,12 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           <script type="text/javascript">
             jQuery('.proximo-button').click(function(){
               if(permissao){
-                window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&socios=' + getUrlParameter('socios') + '&date=' + newDate + '&reservation__hours=true';
+                if(verificaData(date2)){
+                  window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&socios=' + getUrlParameter('socios') + '&date=' + newDate + '&reservation__hours=true';
+                }else{
+                  
+                  alert("Data Inválida");
+                }
               }else{
                 alert("Data inválida");
               }
