@@ -16,9 +16,11 @@ add_action( 'wp_enqueue_scripts', 'theme_scripts_styles' );
 
 function theme_scripts_styles() {
 
+    wp_deregister_script('jquery');
+    wp_enqueue_script('jquery', get_stylesheet_directory_uri() . '/js/jquery-3.3.1.min.js', array());
     wp_enqueue_script( 'tt-reservas-calendar-script', get_stylesheet_directory_uri() . '/css/reservas/jsCalendar.js', array( ) );
     wp_enqueue_script( 'tt-reservas-calendar-script2', get_stylesheet_directory_uri() . '/css/reservas/jsCalendar.lang.pt.js', array( ) );
-
+    wp_enqueue_script( 'tt-reservas-calendar-script3', get_stylesheet_directory_uri() . '/js/bootstrap.min.js', array( ) );
 }
 
 function remove_acf_time_picker_seconds() { ?>
@@ -65,6 +67,7 @@ function my_login_logo_one() {
     padding: 5% 0% 0% !important;
   }
   </style>
+  
    <?php 
 } add_action( 'login_enqueue_scripts', 'my_login_logo_one' );
 
