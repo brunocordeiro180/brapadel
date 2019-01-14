@@ -57,6 +57,10 @@
             } ?>
             </div>
     </div>
+    <!-- <button >Voltar</button> -->
+    <form action="../minhas-reservas">
+        <input style="margin-right: 30px;" type="submit" value="Voltar" />
+    </form>
 </section>
 <script>
 
@@ -125,7 +129,7 @@
 
     jQuery(".acf-form-submit .acf-button").click(function(e){
         if(validaHora()){
-            <?php update_field('editada', true, $id_post); ?>
+            
         }else{
             alert("Horário Inválido");
             e.preventDefault();
@@ -161,6 +165,7 @@
     $luz = floatval(str_replace(",", ".", get_field('luz', $page)));
 
     if( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
+        update_field('editada', true, $id_post);
         $reserva_id = $_GET['reservaid'];
         $socios = floatval(get_field("socios", $reserva_id));
         // $data = get_field("data", $reserva_id);
@@ -174,6 +179,14 @@
         $hora_inicial = intval($hora_inicial[0]);
         $total = 0;
         $totalClube = 0;
+
+        function isWeekend($date) {
+            if(date('N', strtotime($date)) == 6 || date('N', strtotime($date)) == 7){
+                return true;
+            }else{
+                return false;
+            }
+        }
 
         if(isWeekend($date)){
             if($hora_inicial >= 9){
@@ -245,10 +258,16 @@
         $user = wp_get_current_user()->ID; 
         $valor = floatval(str_replace(",", ".", get_field("valor", $reserva_id)));
         $divida_old = get_field( 'divida', 'user_' . $user );
+        $credito_old = get_field( 'credito', 'user_' . $user );
 
         if($total > $valor){
             $divida = $divida_old + ($total - $valor);
             update_field('divida', $divida, 'user_' . $user);
+        }else{
+            if($total < $valor){
+                $credito = $credito_old + ($valor - $total);
+                update_field('credito', $credito_old, 'user_' . $user);
+            }
         }
         
         update_field( "valor", $total, $reserva_id);

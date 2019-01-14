@@ -30,7 +30,7 @@
             <div class="col-sm">
                 <h2>Minhas Reservas</h2>
                 <strong>Crédito: $<?php echo number_format($credito, 2); ?></strong>
-                <strong>| Dívida: $<?php echo number_format($divida, 2); ?></strong>
+                <strong>| Valor Devido: $<?php echo number_format($divida, 2); ?></strong>
             </div>
             <div class="col-sm">
             <!-- <h4 style="float: right;">Crédito: $0,00</h4> -->
@@ -187,7 +187,6 @@
             $hoje = 'false';
         }
         $diferenca = abs(strtotime($hora_inicial) - strtotime($now)) / 3600;
-        $diferenca += 2;
  
         if($hoje == 'true' && ($diferenca/5 < 0)){
             header("Location: " . parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) . "?cancelamento=false");
