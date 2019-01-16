@@ -1586,7 +1586,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
 
   <section class="reservation__block reservation__active" id="reservation__notlogged">
     <div class="container">
-      <div class="row">
+      <div class="row" style="text-align: center;">
         <div class="col-md-8 col-md-offset-2 col-sm-12">
           <h2 class="reservation__warning">Você precisa estar logado para realizar a reserva. Clique <a href="https://brapadel.com.br/wp-login.php?redirect_to=https%3A%2F%2Fbrapadel.com.br%2Fagendamento%2F">aqui</a> para entrar.</h2>
         </div>

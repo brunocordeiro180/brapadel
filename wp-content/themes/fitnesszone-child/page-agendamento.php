@@ -41,6 +41,34 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
       width: 150%;
     } */
 
+    @media only screen and (max-width: 575px) {
+      .parte2{
+        margin-top: 17%;
+        text-align: center;
+        border-left: 0px solid white !important;
+      } 
+
+      .parte1{
+        text-align: center;
+        padding-right: 0px !important;
+      }
+
+      /* .parte1 #confirmar-reserva{
+        margin-left: 20px !important;
+      } */
+    }
+
+    @media only screen and (max-width: 767px) {
+      .parte2{
+        
+        border-left: 0px solid white !important;
+      } 
+
+      .parte1 #confirmar-reserva{
+        margin-left: 0px !important;
+      }
+    }
+
   </style>
   <?php 
   
@@ -190,7 +218,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           </div>
           <div class="parte2 col-lg-3 col-sm" style="border-left: 1px solid black; padding-left: 2%;">  
             <h3><strong style="margin-bottom: 1px;">Resumo da Reserva</strong></h3>
-            <h5>Clube <?php echo $_GET['clubes'];?></h5>
+            <p>Clube <?php echo $_GET['clubes'];?></p>
           </div>
         </div>
       </div>
@@ -501,9 +529,13 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
       ?>
 
       <div class="row" style="padding-top: 3%;">
-        <div class="parte1 col-lg-9 col-sm" style="float: left; width: 70%;">
+        <div class="parte1 col-lg-9 col-sm" style="float: left;">
           <h2>Selecione a Quadra e os Horários</h2>
           <table style="width: 70%; color: black;" class="customers">
+            <!-- <colgroup>
+              <col style="width: 10%" />
+              
+            </colgroup> -->
               <tr>
                 <?php 
                   for ($i=0; $i < $qtd_quadras; $i++) { 
@@ -1252,27 +1284,32 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
         </div>
       </div>
       <div class="row" style="padding-top: 4%;">
-        <div class="parte1 col-lg-9 col-sm pagamento">
-          <h2>Pagamento</h2>
+        <div class="parte1 col-lg-9 col-sm pagamento" style="padding-left: 0px;">
+          <div class="row">
+            <h2>Pagamento</h2>
+          </div>
           <div id="div_pagamentos" class="row">
-            <div id="pagar_online" style="float: left;">
-              <label style="font-size: 13px;font-weight: bold;" for="pay_online">Pagar online</label>
+            <div id="pagar_online" style="margin-right: 20px;text-align: center; padding: 10px 30px 30px 30px; border: 2px solid #179ed6; border-radius: 5px; box-shadow: 3px 3px #1490c3; margin-bottom: 10px;">
+              <!-- <label style="font-size: 13px;font-weight: bold;" for="pay_online">Pagar online</label> -->
+              <i class="fab fa-paypal fa-2x"></i><br>
+              <span>Pagamento<br> Online</span><br>
               <input id="pay_online" name="pay_online" type="checkbox" />
             </div>
-            <div id="pagar_clube" style="margin-bottom: 18px; float: left;">
-              <label style="font-size: 13px;font-weight: bold;" for="pay_atm">Pagar no clube</label>
+            <div id="pagar_clube" style="text-align: center; padding: 10px 30px 30px 30px; border: 2px solid #179ed6; border-radius: 5px; box-shadow: 3px 3px #1490c3; margin-bottom: 10px;">
+              <i class="far fa-credit-card fa-2x"></i><br>
+              <span>Pagamento<br>no Clube</span><br>
               <input id="pay_atm" name="pay_atm" type="checkbox" />
             </div>
           </div>
           <br>
           <div class="row">
-          <a class="extras__button before__button pay-before">Voltar</a>
+          <a style="margin-bottom: 10px;" class="extras__button before__button pay-before">Voltar</a>
             <script type="text/javascript">
               jQuery('.pay-before').click(function(){
                 window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&socios=' + getUrlParameter('socios') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra')  + '&date=' +  getUrlParameter('date') + '&horario_inicial=' + getUrlParameter('horario_inicial') + '&horario_final=' + getUrlParameter('horario_final') + '&reservation_extras=true';
               });
             </script>
-            <a id="confirmar-reserva" class="extras__button next__button" style="float: left;display:none;">Confirmar reserva</a>
+            <a id="confirmar-reserva" class="extras__button next__button" style="margin-left: 20px; float: left;display:none;">Confirmar reserva</a>
           </div>
              <!-- Declaração do formulário -->
             <form method="post" target="pagseguro" style="display: none;"
@@ -1611,13 +1648,14 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
 
   <section class="reservation__block reservation__active" id="reservation__notlogged">
     <div class="container">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2 col-sm-12">
-          <h2 class="reservation__warning">Você precisa estar logado para realizar a reserva. Clique <a href="https://brapadel.com.br/wp-login.php?redirect_to=https%3A%2F%2Fbrapadel.com.br%2Fagendamento%2F">aqui</a> para entrar.</h2>
+      <div class="row" style="text-align: center;">
+        <div class="col-sm">
+          <h2 class="reservation__warning">Você precisa estar logado para realizar a reserva. Clique <a href="../wp-login.php">aqui</a> para entrar.</h2>
         </div>
       </div>
     </div>
   </section>
+
 
 
 <?php endif; ?>
