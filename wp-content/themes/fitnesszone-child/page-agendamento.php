@@ -1291,12 +1291,12 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           <div id="div_pagamentos" class="row">
             <div id="pagar_online" style="margin-right: 20px;text-align: center; padding: 10px 30px 30px 30px; border: 2px solid #179ed6; border-radius: 5px; box-shadow: 3px 3px #1490c3; margin-bottom: 10px;">
               <!-- <label style="font-size: 13px;font-weight: bold;" for="pay_online">Pagar online</label> -->
-              <i class="fab fa-paypal fa-2x"></i><br>
+              <i style="color: #545454;" class="fab fa-paypal fa-2x"></i><br>
               <span>Pagamento<br> Online</span><br>
               <input id="pay_online" name="pay_online" type="checkbox" />
             </div>
             <div id="pagar_clube" style="text-align: center; padding: 10px 30px 30px 30px; border: 2px solid #179ed6; border-radius: 5px; box-shadow: 3px 3px #1490c3; margin-bottom: 10px;">
-              <i class="far fa-credit-card fa-2x"></i><br>
+              <i style="color: #545454;" class="far fa-credit-card fa-2x"></i><br>
               <span>Pagamento<br>no Clube</span><br>
               <input id="pay_atm" name="pay_atm" type="checkbox" />
             </div>

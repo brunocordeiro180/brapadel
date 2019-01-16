@@ -42,7 +42,8 @@
         <div class="row">
 	        <div class="bd-example bd-example-tabs">
 	            <nav class="nav nav-tabs" id="nav-tab" role="tablist">
-	                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="home" aria-expanded="true">Próximos Jogos</a>
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="home" aria-expanded="true">Próximos Jogos</a>
+                    <a class="nav-item nav-link" id="nav-antigos-tab" data-toggle="tab" href="#nav-antigos" role="tab" aria-controls="home" aria-expanded="true">Jogos Antigos</a>
 	                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="profile" aria-expanded="false">Reservas Canceladas</a>
 	            </nav>
 	            <div class="tab-content" id="nav-tabContent">
@@ -63,8 +64,12 @@
 		                    $i = 0;
 		                    while($reservas->have_posts() ) :
 		                    $reservas->the_post();
-		                    $id = get_the_id();
-		                    if(get_field("status", $id)){
+                            $id = get_the_id();
+                            $data = get_field("data", $id);
+                            $data = str_replace("/", "-", $data);
+                            $date = new DateTime($data);
+                            $now = new DateTime();
+		                    if(get_field("status", $id) && ($date > $now)){
 		                        $i++;
 		                    ?>
 		                    
@@ -104,6 +109,49 @@
 		                    $id = get_the_id();
 		                    if(!get_field("status", $id)){
 		                        $i++;
+		                    ?>
+		                    
+		                    <tr>
+		                        <td ><h4 style="margin-bottom: 0px;"><?php echo the_title();  ?></h4></td>
+		                        <td ><h4 style="margin-bottom: 0px;"><?php echo get_field("data", $id);  ?></h4></td>
+		                        <td ><a href="../editar-reserva/?reservaid=<?php echo $id; ?>">Editar Reserva</a></td>
+		                        <td >
+		                            <form action="" method="post" onsubmit="return confirmacao()">
+		                                <input style="display: none;" name="reserva_id" type="number" value="<?php echo get_the_id(); $reserva_id = get_the_id();?>">
+		                                <input type="submit" style="background-color: transparent; color: #96d2eb; width: 100%; text-transform: capitalize; padding: 0px; margin: 0px;" class="btn btn-link" value="Cancelar Reserva">
+		                            </form>
+                                </td>
+		                    </tr>
+		                    <?php
+		                   }
+		                    endwhile;
+		                    wp_reset_postdata();
+		                    ?>
+		                </table>
+	                
+	            <?php
+	            
+	            else :
+	            ?><p style="position: absolute;  margin-top: 5%; padding-bottom: 40%;">Nenhuma reserva encontrada</p><?php
+                endif;
+                ?></div><?php
+	            $reservas = new WP_Query( $args );
+                if($reservas->have_posts() ) :
+	                ?>
+	                <div class="tab-pane fade" id="nav-antigos" role="tabpanel" aria-labelledby="nav-antigos-tab" aria-expanded="false">
+		                <table style="width: 150%; vertical-align: middle;" class="table-reservas">
+		                    <?php
+		                    $reserva_id = 0;
+                            $i = 0;
+		                    while($reservas->have_posts() ) :
+                                $reservas->the_post();
+                                $id = get_the_id();
+                                $data = get_field("data", $id);
+                                $data = str_replace("/", "-", $data);
+                                $date = new DateTime($data);
+                                $now = new DateTime();
+		                        if($date < $now){
+		                            $i++;
 		                    ?>
 		                    
 		                    <tr>
