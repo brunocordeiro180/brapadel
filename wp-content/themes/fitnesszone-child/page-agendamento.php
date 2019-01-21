@@ -1341,7 +1341,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                     <!-- Itens do pagamento (ao menos um item é obrigatório) -->
                     <input name="itemId1" type="hidden" value="0001">
                     <input name="itemDescription1" type="hidden" value="Reserva de Quadra">
-                    <input name="itemAmount1" type="hidden" value="1.00">
+                    <input name="itemAmount1" type="hidden" value="<?php echo $total ?>">
                     <input name="itemQuantity1" type="hidden" value="1">
                     <input name="itemWeight1" type="hidden" value="1000">
 

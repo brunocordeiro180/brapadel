@@ -8,7 +8,7 @@ $PagSeguro = new PagSeguro();
 	
 //EFETUAR PAGAMENTO	
 $venda = array("codigo"=>"1",
-			   "valor"=>1.00,
+			   "valor"=>$_POST['itemAmount1'],
 			   "descricao"=>"Reserva de Quadra",
 			//    "nome"=>"",
 			//    "email"=>"brunocordeiro180@",
@@ -21,7 +21,7 @@ $venda = array("codigo"=>"1",
 			//    "cep"=>"XX.XXX-XXX",
 			   "codigo_pagseguro"=>"");
 			   
-$PagSeguro->executeCheckout($venda,"http://localhost/brapadel/index.php/minhas-reservas/");
+$PagSeguro->executeCheckout($venda,"http://brapadel-com-br.umbler.net/wp-content/themes/fitnesszone-child/notificacao.php?codigo=" . $_GET['codigo'] . "&");
 
 //----------------------------------------------------------------------------
 
