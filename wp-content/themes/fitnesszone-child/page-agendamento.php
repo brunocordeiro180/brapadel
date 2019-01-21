@@ -42,6 +42,10 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
     } */
 
     @media only screen and (max-width: 575px) {
+      .jsCalendar thead .jsCalendar-week-days th, .jsCalendar tbody td{
+        height: 30px !important;
+        width: 30px !important;
+      }
       .parte2{
         margin-top: 17%;
         text-align: center;
@@ -1427,7 +1431,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           }
             return true;
           }
-          if(validaHora()){
+          if(true){
             
              
                 var url_string = window.location.href;
