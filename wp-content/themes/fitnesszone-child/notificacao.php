@@ -6,6 +6,7 @@
 		$PagSeguro = new PagSeguro();
 		$response = $PagSeguro->executeNotification($_POST);
 		if( $response->status==3 || $response->status==4 ){
+			
         	$clube = $_POST['clube'];
 			$quadra = $_POST['quadra'];
 			$socios = $_POST['socios'];

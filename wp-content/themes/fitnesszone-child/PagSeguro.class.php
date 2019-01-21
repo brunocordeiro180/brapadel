@@ -7,18 +7,18 @@ class PagSeguro{
 	
 	//URL OFICIAL
 	//COMENTE AS 4 LINHAS ABAIXO E DESCOMENTE AS URLS DA SANDBOX PARA REALIZAR TESTES
-	// private $url              = "https://ws.pagseguro.uol.com.br/v2/checkout/";
-	// private $url_redirect     = "https://pagseguro.uol.com.br/v2/checkout/payment.html?code=";
-	// private $url_notificacao  = 'https://ws.pagseguro.uol.com.br/v2/transactions/notifications/';
-	// private $url_transactions = 'https://ws.pagseguro.uol.com.br/v2/transactions/';
+	private $url              = "https://ws.pagseguro.uol.com.br/v2/checkout/";
+	private $url_redirect     = "https://pagseguro.uol.com.br/v2/checkout/payment.html?code=";
+	private $url_notificacao  = 'https://ws.pagseguro.uol.com.br/v2/transactions/notifications/';
+	private $url_transactions = 'https://ws.pagseguro.uol.com.br/v2/transactions/';
 
 	//URL SANDBOX
 	//DESCOMENTAR PARA REALIZAR TESTES
 	
-	private $url              = "https://ws.sandbox.pagseguro.uol.com.br/v2/checkout/";
-	private $url_redirect     = "https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=";
-	private $url_notificacao  = 'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/notifications/';
-	private $url_transactions = 'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/';
+	// private $url              = "https://ws.sandbox.pagseguro.uol.com.br/v2/checkout/";
+	// private $url_redirect     = "https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=";
+	// private $url_notificacao  = 'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/notifications/';
+	// private $url_transactions = 'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/';
 	
 	
 	private $email_token = "";//NÃO MODIFICAR
