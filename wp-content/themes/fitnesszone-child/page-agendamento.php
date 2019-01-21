@@ -1171,11 +1171,15 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
 
               function validaHora(){
 
+       
+                var hora_inicial = "00:00";
+                var hora_final = "00:00"; 
+
                 var url_string = window.location.href;
                 var url = new URL(url_string);
                 var hora_inicial = url.searchParams.get("horario_inicial");
                 var hora_final = url.searchParams.get("horario_final");
-              
+
                 hora_inicial = hora_inicial.split(":");
                 hora_final = hora_final.split(":");
 
@@ -1184,6 +1188,8 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
 
                 hora_final[0] = Number(hora_final[0]);
                 hora_final[1] = Number(hora_final[1]);
+
+                
 
                 if(hora_inicial[0] > hora_final[0]){
                   return false;
@@ -1197,7 +1203,6 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                     }
                   }else{
                     var diferenca = (hora_final[0] - hora_inicial[0]) + ((hora_final[1]/100) - (hora_inicial[1]/100));
-
                     if(diferenca > 2){
                       return false;
                     }else{
@@ -1205,7 +1210,12 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                     }
                   }
                 }
+                
+
+                return true;
               }
+
+              
 
               if(validaHora()){
                 window.location.href =  window.location.href.split('?')[0]+ '?clubes=' + getUrlParameter('clubes') + '&socios=' + getUrlParameter('socios') + '&date=' +  getUrlParameter('date') + '&qtd_quadras=' + getUrlParameter('qtd_quadras') + '&quadra=' + getUrlParameter('quadra') + '&horario_inicial=' + getUrlParameter('horario_inicial') + '&horario_final=' + getUrlParameter('horario_final') + '&raquetes=' + jQuery('#raquetes_select').val() + '&bolinhas=' + jQuery('#bolinhas_select').val() + '&reservation__payment=true';
@@ -1339,7 +1349,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                     <input name="reference" type="hidden" value="REF1234">
 
                     <!-- submit do form (obrigatório) -->
-                    <input onclick="window.location = 'localhost/brapadel/index.php/minhas-reservas';" id="submitpagseguro" alt="Pague com PagSeguro" name="submit"  type="image"
+                    <input onclick="window.location = 'http://brapadel-com-br.umbler.net/minhas-reservas';" id="submitpagseguro" alt="Pague com PagSeguro" name="submit"  type="image"
             src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/120x53-pagar.gif"/>
 
             </form>
@@ -1374,42 +1384,48 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
 
       jQuery('#confirmar-reserva').on("click", function(){
         // var ask = window.confirm("Tem certeza que deseja confirmar reserva?");
-          function validaHora(){
+        function validaHora(){
 
-            var url_string = window.location.href;
-            var url = new URL(url_string);
-            var hora_inicial = url.searchParams.get("horario_inicial");
-            var hora_final = url.searchParams.get("horario_final");
+       
+          var hora_inicial = "00:00";
+          var hora_final = "00:00"; 
 
-            hora_inicial = hora_inicial.split(":");
-            hora_final = hora_final.split(":");
+          var url_string = window.location.href;
+          var url = new URL(url_string);
+          var hora_inicial = url.searchParams.get("horario_inicial");
+          var hora_final = url.searchParams.get("horario_final");
 
-            hora_inicial[0] = Number(hora_inicial[0]);
-            hora_inicial[1] = Number(hora_inicial[1]);
+          hora_inicial = hora_inicial.split(":");
+          hora_final = hora_final.split(":");
 
-            hora_final[0] = Number(hora_final[0]);
-            hora_final[1] = Number(hora_final[1]);
+          hora_inicial[0] = Number(hora_inicial[0]);
+          hora_inicial[1] = Number(hora_inicial[1]);
 
-            if(hora_inicial[0] > hora_final[0]){
-              return false;
+          hora_final[0] = Number(hora_final[0]);
+          hora_final[1] = Number(hora_final[1]);
+
+
+
+          if(hora_inicial[0] > hora_final[0]){
+            return false;
+          }else{
+            if((hora_inicial[0] == hora_final[0])){
+              if((hora_inicial[1] > hora_final[1])){
+                return false;
+              }
+              if(hora_inicial[1] == hora_final[1]){
+                return false;
+              }
             }else{
-              if((hora_inicial[0] == hora_final[0])){
-                if((hora_inicial[1] > hora_final[1])){
-                  return false;
-                }
-                if(hora_inicial[1] == hora_final[1]){
-                  return false;
-                }
+              var diferenca = (hora_final[0] - hora_inicial[0]) + ((hora_final[1]/100) - (hora_inicial[1]/100));
+              if(diferenca > 2){
+                return false;
               }else{
-                var diferenca = (hora_final[0] - hora_inicial[0]) + ((hora_final[1]/100) - (hora_inicial[1]/100));
-
-                if(diferenca > 2){
-                  return false;
-                }else{
-                  return true;
-                }
+                return true;
               }
             }
+          }
+            return true;
           }
           if(validaHora()){
             

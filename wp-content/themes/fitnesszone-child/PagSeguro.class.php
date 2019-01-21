@@ -1,24 +1,24 @@
 <?php
 class PagSeguro{
 	private $email         = "brunocordeiro180@gmail.com";
-	private $token_sandbox = "app9947703307";
+	private $token_sandbox = "8EBAFB4624354FFFAF4E18A0EC37423D";
 	private $token_oficial = "D47613C1FB3F4A6A90FF58BC3AFEF3FE";
 	private $url_retorno   = "http://brapadel-com-br/wp-content/themes/fitnesszone-child/notificacao.php";
 	
 	//URL OFICIAL
 	//COMENTE AS 4 LINHAS ABAIXO E DESCOMENTE AS URLS DA SANDBOX PARA REALIZAR TESTES
-	private $url              = "https://ws.pagseguro.uol.com.br/v2/checkout/";
-	private $url_redirect     = "https://pagseguro.uol.com.br/v2/checkout/payment.html?code=";
-	private $url_notificacao  = 'https://ws.pagseguro.uol.com.br/v2/transactions/notifications/';
-	private $url_transactions = 'https://ws.pagseguro.uol.com.br/v2/transactions/';
+	// private $url              = "https://ws.pagseguro.uol.com.br/v2/checkout/";
+	// private $url_redirect     = "https://pagseguro.uol.com.br/v2/checkout/payment.html?code=";
+	// private $url_notificacao  = 'https://ws.pagseguro.uol.com.br/v2/transactions/notifications/';
+	// private $url_transactions = 'https://ws.pagseguro.uol.com.br/v2/transactions/';
 
 	//URL SANDBOX
 	//DESCOMENTAR PARA REALIZAR TESTES
 	
-	// private $url              = "https://ws.sandbox.pagseguro.uol.com.br/v2/checkout/";
-	// private $url_redirect     = "https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=";
-	// private $url_notificacao  = 'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/notifications/';
-	// private $url_transactions = 'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/';
+	private $url              = "https://ws.sandbox.pagseguro.uol.com.br/v2/checkout/";
+	private $url_redirect     = "https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=";
+	private $url_notificacao  = 'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/notifications/';
+	private $url_transactions = 'https://ws.sandbox.pagseguro.uol.com.br/v2/transactions/';
 	
 	
 	private $email_token = "";//NÃO MODIFICAR

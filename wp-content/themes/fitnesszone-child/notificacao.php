@@ -103,6 +103,8 @@
 
 			// send email
 			mail($user_data->user_email,"Confirmação de Reserva",$msg);
+
+			header("Location: " . "http://brapadel-com-br.umbler.net/minhas-reservas");
 			
 		}else{
 			//PAGAMENTO PENDENTE
@@ -200,6 +202,8 @@
 			// send email
 			mail($user_data->user_email,"Confirmação de Reserva",$msg);
 			echo $PagSeguro->getStatusText($PagSeguro->status);
+
+			header("Location: " . "http://brapadel-com-br.umbler.net/minhas-reservas");
 		}
 	}
 ?>
