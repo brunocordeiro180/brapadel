@@ -1313,16 +1313,25 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           </div>
              <!-- Declaração do formulário -->
             <form method="post" target="pagseguro" style="display: none;"
-            action="https://pagseguro.uol.com.br/v2/checkout/payment.html">
+            action="<?php echo get_stylesheet_directory_uri() ?>/checkout.php">
 
                     <!-- Campos obrigatórios -->
                     <input name="receiverEmail" type="hidden" value="felipelira1908@hotmail.com">
                     <input name="currency" type="hidden" value="BRL">
-
+                    <input type="hidden" name="clube" value="<?php echo $_GET['clube']; ?>">
+                    <input type="hidden" name="socios" value="<?php echo $_GET['socios']; ?>">
+                    <input type="hidden" name="horario_inicial" value="<?php echo $_GET['hora_inicial']; ?>">
+                    <input type="hidden" name="horario_final" value="<?php echo $_GET['hora_final']; ?>">
+                    <input type="hidden" name="data" value="<?php echo $_GET['date']; ?>">
+                    <input type="hidden" name="quadra" value="<?php echo $_GET['quadra']; ?>">
+                    <input type="hidden" name="raquetes" value="<?php echo $_GET['raquetes']; ?>">
+                    <input type="hidden" name="bolinhas" value="<?php echo $_GET['bolinhas']; ?>">
+                    <input type="hidden" name="forma_pagamento" value="1">
+                    <input type="hidden" name="valor" value="<?php echo $total; ?>">
                     <!-- Itens do pagamento (ao menos um item é obrigatório) -->
                     <input name="itemId1" type="hidden" value="0001">
-                    <input name="itemDescription1" type="hidden" value="Notebook Prata">
-                    <input name="itemAmount1" type="hidden" value="<?php echo $totalString; ?>">
+                    <input name="itemDescription1" type="hidden" value="Reserva de Quadra">
+                    <input name="itemAmount1" type="hidden" value="1.00">
                     <input name="itemQuantity1" type="hidden" value="1">
                     <input name="itemWeight1" type="hidden" value="1000">
 
@@ -1330,7 +1339,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                     <input name="reference" type="hidden" value="REF1234">
 
                     <!-- submit do form (obrigatório) -->
-                    <input alt="Pague com PagSeguro" name="submit"  type="image"
+                    <input onclick="window.location = 'localhost/brapadel/index.php/minhas-reservas';" id="submitpagseguro" alt="Pague com PagSeguro" name="submit"  type="image"
             src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/120x53-pagar.gif"/>
 
             </form>
@@ -1362,6 +1371,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
       <br><br><br><br><br>
       
     <script type="text/javascript">
+
       jQuery('#confirmar-reserva').on("click", function(){
         // var ask = window.confirm("Tem certeza que deseja confirmar reserva?");
           function validaHora(){
@@ -1445,9 +1455,6 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                   });       
                 }    
               }else{
-                var ask = window.confirm("Deseja confirmar reserva?");
-                if(ask){
-                  alert("Aguarde enquanto a Reserva é confirmada");
                   jQuery.ajax({
                       type: "POST",
                       url: window.location.href,
@@ -1468,7 +1475,6 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                         alert("error");
                       }
                   }).done(function( msg ) {
-                    alert("Reserva Feita");
                     window.location.replace(window.location.href.split('?')[0] + "minhas-reservas");
                   }); 
                 }
