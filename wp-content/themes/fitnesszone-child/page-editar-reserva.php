@@ -163,6 +163,7 @@
     $preco_raquete = floatval(str_replace(",", ".",get_field('aluguel_raquete', $page)));
     $preco_bolinhas = floatval(str_replace(",", ".", get_field('bolinhas', $page)));
     $luz = floatval(str_replace(",", ".", get_field('luz', $page)));
+    $horario_luz = get_field('horario_luz', $page);
 
     if( isset($_GET['updated']) && $_GET['updated'] == 'true' ) {
         update_field('editada', true, $id_post);
@@ -177,6 +178,10 @@
 
         $hora_inicial = explode(":", $hora_inicial);
         $hora_inicial = intval($hora_inicial[0]);
+
+        $hora_final = explode(":", $hora_inicial);
+        $hora_final[0] = intval($hora_inicial[0]);
+        $hora_final[1] = intval($hora_inicial[1]);
         $total = 0;
         $totalClube = 0;
 
@@ -234,7 +239,7 @@
 
         $hora_inicial = explode(":", $hora_inicial);
         
-        if(($hora_inicial[0] >= 18) && ($hora_inicial[1] == 30 || $hora_inicial[1] == 0)){
+        if(($hora_inicial[0] == $horario_luz[0] && $hora_inicial[1] == $horario_luz[1]) || ($hora_inicial[0] == $horario_luz[0] && $horario_luz[1] == 0) || ($hora_inicial[0] > $horario_luz[0] && ($hora_inicial[1] == 30 || $hora_inicial[1] == 0))){
             $total = $total + $luz;
             $totalClube = $totalClube + $luz;
             $cobrandoLuz = true;
@@ -245,13 +250,32 @@
         $hora_inicial = explode(":", $hora_inicial);
         $hora_inicial[0] = intval($hora_inicial[0]);
         $hora_inicial[1] = intval($hora_inicial[1]);
+        $horario_luz = explode(":", $horario_luz);
+        $horario_luz[0] = intval($horario_luz[0]);
+        $horario_luz[1] = intval($horario_luz[1]);
 
-        if(($hora_inicial[0] >= 18) && ($hora_inicial[1] == 30 || $hora_inicial[1] == 0)){
-            $totalClube = $totalClube + $luz;
-            $cobrandoLuz = true;
+        $qtd30 = 0;
+
+        if(($hora_final[1] == 30 && $hora_inicial[1] == 0) || ($hora_final[1] == 0 && $hora_inicial[1] == 30)){
+            if((((intval($hora_final[0]) - intval($hora_inicial[0])) == 2) && ($hora_inicial[1] == 30)) || (((intval($hora_final[0]) - intval($hora_inicial[0])) == 1) && ($hora_final[1] == 30))){
+            $qtd30 = 3;
+            }else{
+            $qtd30 = 1;
+            }
         }else{
-            $cobrandoLuz = false;
+            if((intval($hora_final[0]) - intval($hora_inicial[0])) == 2){
+            $qtd30 = 4;
+            }else{
+            $qtd30 = 2;
+            }
         }
+
+        if(($hora_inicial[0] == $horario_luz[0] && $hora_inicial[1] == $horario_luz[1]) || ($hora_inicial[0] > $horario_luz[0] && ($hora_inicial[1] == 30 || $hora_inicial[1] == 0))){
+            $total = $total + ($qtd30 * $luz);
+            $cobrandoLuz = true;
+          }else{
+            $cobrandoLuz = false;
+          }
     
         $total = $total + ($preco_raquete * $raquetes) + ($preco_bolinhas * intval($bolinhas));
         
