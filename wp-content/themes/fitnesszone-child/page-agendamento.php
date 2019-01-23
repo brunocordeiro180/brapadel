@@ -1330,17 +1330,18 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             </script>
             <a id="confirmar-reserva" class="extras__button next__button" style="margin-left: 20px; float: left;display:none;">Confirmar reserva</a>
           </div>
+            <?php $user_logged =  wp_get_current_user();?> 
              <!-- Declaração do formulário -->
             <form method="post" target="pagseguro" style="display: none;"
             action="<?php echo get_stylesheet_directory_uri() ?>/checkout.php">
-
                     <!-- Campos obrigatórios -->
                     <input name="receiverEmail" type="hidden" value="felipelira1908@hotmail.com">
                     <input name="currency" type="hidden" value="BRL">
-                    <input type="hidden" name="clube" value="<?php echo $_GET['clube']; ?>">
+                    <input type="hidden" name="clube" value="<?php echo $_GET['clubes']; ?>">
+                    <input type="hidden" name="user" value="<?php echo $user_logged->ID; ?>">
                     <input type="hidden" name="socios" value="<?php echo $_GET['socios']; ?>">
-                    <input type="hidden" name="horario_inicial" value="<?php echo $_GET['hora_inicial']; ?>">
-                    <input type="hidden" name="horario_final" value="<?php echo $_GET['hora_final']; ?>">
+                    <input type="hidden" name="horario_inicial" value="<?php echo $_GET['horario_inicial']; ?>">
+                    <input type="hidden" name="horario_final" value="<?php echo $_GET['horario_final']; ?>">
                     <input type="hidden" name="data" value="<?php echo $_GET['date']; ?>">
                     <input type="hidden" name="quadra" value="<?php echo $_GET['quadra']; ?>">
                     <input type="hidden" name="raquetes" value="<?php echo $_GET['raquetes']; ?>">
@@ -1392,50 +1393,6 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
     <script type="text/javascript">
 
       jQuery('#confirmar-reserva').on("click", function(){
-        // var ask = window.confirm("Tem certeza que deseja confirmar reserva?");
-        function validaHora(){
-
-       
-          var hora_inicial = "00:00";
-          var hora_final = "00:00"; 
-
-          var url_string = window.location.href;
-          var url = new URL(url_string);
-          var hora_inicial = url.searchParams.get("horario_inicial");
-          var hora_final = url.searchParams.get("horario_final");
-
-          hora_inicial = hora_inicial.split(":");
-          hora_final = hora_final.split(":");
-
-          hora_inicial[0] = Number(hora_inicial[0]);
-          hora_inicial[1] = Number(hora_inicial[1]);
-
-          hora_final[0] = Number(hora_final[0]);
-          hora_final[1] = Number(hora_final[1]);
-
-
-
-          if(hora_inicial[0] > hora_final[0]){
-            return false;
-          }else{
-            if((hora_inicial[0] == hora_final[0])){
-              if((hora_inicial[1] > hora_final[1])){
-                return false;
-              }
-              if(hora_inicial[1] == hora_final[1]){
-                return false;
-              }
-            }else{
-              var diferenca = (hora_final[0] - hora_inicial[0]) + ((hora_final[1]/100) - (hora_inicial[1]/100));
-              if(diferenca > 2){
-                return false;
-              }else{
-                return true;
-              }
-            }
-          }
-            return true;
-          }
           if(true){
             
              
@@ -1480,31 +1437,29 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                   });       
                 }    
               }else{
-                  jQuery.ajax({
-                      type: "POST",
-                      url: window.location.href,
-                      data: { clube :<?php echo $_GET['clubes']; ?>,
-                              socios : socios,
-                              horario_inicial : hora_inicial,
-                              horario_final : hora_final,
-                              data : data,
-                              quadra : quadra,
-                              raquetes : raquetes,
-                              forma_pagamento : 1,
-                              valor : <?php echo $total; ?>,
-                              bolinhas : 0},
-                      success: function(){
-                        // alert("sucesso");
-                      },
-                      error: function(e){
-                        alert("error");
-                      }
-                  }).done(function( msg ) {
-                    window.location.replace(window.location.href.split('?')[0] + "minhas-reservas");
-                  }); 
-                }
+                jQuery.ajax({
+                    type: "POST",
+                    url: window.location.href,
+                    data: { clube :<?php echo $_GET['clubes']; ?>,
+                            socios : socios,
+                            horario_inicial : hora_inicial,
+                            horario_final : hora_final,
+                            data : data,
+                            quadra : quadra,
+                            raquetes : raquetes,
+                            forma_pagamento : 1,
+                            valor : <?php echo $total; ?>,
+                            bolinhas : 0},
+                    success: function(){
+                      // alert("sucesso");
+                    },
+                    error: function(e){
+                      alert("error");
+                    }
+                }).done(function( msg ) {
+                  window.location.replace(window.location.href.split('?')[0] + "minhas-reservas");
+                }); 
               }
-            
           }else{
             alert("Horário Inválido!");
           }

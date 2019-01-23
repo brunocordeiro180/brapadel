@@ -3,7 +3,7 @@ class PagSeguro{
 	private $email         = "brunocordeiro180@gmail.com";
 	private $token_sandbox = "8EBAFB4624354FFFAF4E18A0EC37423D";
 	private $token_oficial = "D47613C1FB3F4A6A90FF58BC3AFEF3FE";
-	private $url_retorno   = "http://brapadel-com-br/wp-content/themes/fitnesszone-child/notificacao.php";
+	private $url_retorno   = "http://localhost/brapadel/wp-content/themes/fitnesszone-child/checkout.php";
 	
 	//URL OFICIAL
 	//COMENTE AS 4 LINHAS ABAIXO E DESCOMENTE AS URLS DA SANDBOX PARA REALIZAR TESTES
