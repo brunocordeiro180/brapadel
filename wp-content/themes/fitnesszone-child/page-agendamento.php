@@ -1335,7 +1335,6 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             <form method="post" target="pagseguro" style="display: none;"
             action="<?php echo get_stylesheet_directory_uri() ?>/checkout.php">
                     <?php
-                      session_start(); 
                       $_SESSION['codigo'] = ""; 
                     ?>
                     <!-- Campos obrigatórios -->

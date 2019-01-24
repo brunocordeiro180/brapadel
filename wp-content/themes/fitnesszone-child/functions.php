@@ -3,6 +3,14 @@
  
 add_action( 'wp_enqueue_scripts', 'enqueue_parent_styles' ); 
 
+add_action('init', 'start_session', 1);
+
+function start_session() {
+  if(!session_id()) {
+  session_start();
+  }
+  }
+
 function enqueue_parent_styles() {
   wp_enqueue_style('bootstrap', get_stylesheet_directory_uri().'/css/reservas/bootstrap.min.css'); 
   wp_enqueue_style('parent-style', get_stylesheet_directory_uri().'/css/reservas/jsCalendar.css'); 

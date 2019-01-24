@@ -105,25 +105,23 @@ if( !isset($_GET['transaction_id']) ){
 	$codigo =$post_id;
 	$_SESSION['codigo'] = $post_id;
 	$valor = $_POST['valor'];
-}
 
-if( !isset($_GET['transaction_id']) ){
-//EFETUAR PAGAMENTO	
-$venda = array("codigo"=>$codigo,
-			   "valor"=>"1.00",
-			   "descricao"=>"Reserva de Quadra",
-			//    "nome"=>"",
-			//    "email"=>"brunocordeiro180@",
-			//    "telefone"=>"(XX) XXXX-XXXX",
-			//    "rua"=>"",
-			//    "numero"=>"",
-			//    "bairro"=>"",
-			//    "cidade"=>"",
-			   "estado"=>"DF", //2 LETRAS MAIÚSCULAS
-			//    "cep"=>"XX.XXX-XXX",
-			   "codigo_pagseguro"=>"");
-			   
-$PagSeguro->executeCheckout($venda,"http://brapadel-com-br.umbler.net/wp-content/themes/fitnesszone-child/checkout.php");
+	//EFETUAR PAGAMENTO	
+	$venda = array("codigo"=>$codigo,
+				"valor"=>"1.00",
+				"descricao"=>"Reserva de Quadra",
+				//    "nome"=>"",
+				//    "email"=>"brunocordeiro180@",
+				//    "telefone"=>"(XX) XXXX-XXXX",
+				//    "rua"=>"",
+				//    "numero"=>"",
+				//    "bairro"=>"",
+				//    "cidade"=>"",
+				"estado"=>"DF", //2 LETRAS MAIÚSCULAS
+				//    "cep"=>"XX.XXX-XXX",
+				"codigo_pagseguro"=>"");
+				
+	$PagSeguro->executeCheckout($venda,"http://brapadel-com-br.umbler.net/wp-content/themes/fitnesszone-child/checkout.php");
 
 //----------------------------------------------------------------------------
 }
@@ -169,13 +167,13 @@ if( isset($_GET['transaction_id']) ){
 	</section>
 
 	<?php } 
-	
+	echo "codigo " . $_SESSION['codigo'];
 	$pagamento = $PagSeguro->getStatusByReference($_SESSION['codigo']);
 	
 	$pagamento->codigo_pagseguro = $_GET['transaction_id'];
 	if($pagamento->status==3 || $pagamento->status==4){
 		$field_key = "pago";
-		$value = 1;
+		$value = true;
 		update_field( $field_key, $value, $_SESSION['codigo'] );
 		?>
 
@@ -199,7 +197,7 @@ if( isset($_GET['transaction_id']) ){
 		</div>
 		</section>
 	<?php 
-	session_destroy();
+
 	}
 
 	get_footer(); 
