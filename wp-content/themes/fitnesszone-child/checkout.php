@@ -110,7 +110,7 @@ if( !isset($_GET['transaction_id']) ){
 if( !isset($_GET['transaction_id']) ){
 //EFETUAR PAGAMENTO	
 $venda = array("codigo"=>$codigo,
-			   "valor"=>$valor,
+			   "valor"=>"1.00",
 			   "descricao"=>"Reserva de Quadra",
 			//    "nome"=>"",
 			//    "email"=>"brunocordeiro180@",
