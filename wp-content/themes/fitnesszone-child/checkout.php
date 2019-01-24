@@ -7,6 +7,7 @@ require_once("../../../wp-load.php");
 require_once("PagSeguro.class.php");
 $PagSeguro = new PagSeguro();
 $codigo = 0; $valor = 1.00;
+
 if( !isset($_GET['transaction_id']) ){
 	$clube = $_POST['clube'];
 	$quadra = $_POST['quadra'];
@@ -102,6 +103,7 @@ if( !isset($_GET['transaction_id']) ){
 	// send email
 	mail($user_data->user_email,"Confirmação de Reserva",$msg);
 	$codigo =$post_id;
+	$_SESSION['codigo'] = $post_id;
 	$valor = $_POST['valor'];
 }
 
@@ -168,13 +170,13 @@ if( isset($_GET['transaction_id']) ){
 
 	<?php } 
 	
-	$pagamento = $PagSeguro->getStatusByReference($codigo);
+	$pagamento = $PagSeguro->getStatusByReference($_SESSION['codigo']);
 	
 	$pagamento->codigo_pagseguro = $_GET['transaction_id'];
 	if($pagamento->status==3 || $pagamento->status==4){
 		$field_key = "pago";
 		$value = 1;
-		update_field( $field_key, $value, $codigo );
+		update_field( $field_key, $value, $_SESSION['codigo'] );
 		?>
 
 		<div class="container">
@@ -196,7 +198,9 @@ if( isset($_GET['transaction_id']) ){
 			</div>
 		</div>
 		</section>
-	<?php }
+	<?php 
+	session_destroy();
+	}
 
 	get_footer(); 
 
