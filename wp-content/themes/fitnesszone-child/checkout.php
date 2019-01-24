@@ -168,7 +168,7 @@ if( isset($_GET['transaction_id']) ){
 
 	<?php } 
 	echo "codigo " . $_SESSION['codigo'];
-	$pagamento = $PagSeguro->getStatusByCode($_GET['transaction_id']);
+	$pagamento = $PagSeguro->getStatusByReference($_SESSION['codigo']);
 	
 	$pagamento->codigo_pagseguro = $_GET['transaction_id'];
 	echo "status" . $pagamento->status;
