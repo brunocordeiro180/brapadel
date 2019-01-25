@@ -2,9 +2,10 @@
 require_once("../../../wp-load.php");
 
 class PagSeguro{
-	private $email         = "brunocordeiro180@gmail.com";
+	private $email         = "brasiliapadel@gmail.com";
 	private $token_sandbox = "8EBAFB4624354FFFAF4E18A0EC37423D";
-	private $token_oficial = "D47613C1FB3F4A6A90FF58BC3AFEF3FE";
+	private $token_oficial = "D71B13B1A8CF488385EC9AE11317FBF5";
+	// private $token_oficial = "D47613C1FB3F4A6A90FF58BC3AFEF3FE";
 	// private $token_oficial = "8EBAFB4624354FFFAF4E18A0EC37423D";
 	private $url_retorno   = "http://localhost/brapadel/wp-content/themes/fitnesszone-child/checkout.php";
 	
