@@ -112,7 +112,7 @@ if( !isset($_GET['transaction_id']) ){
 
 		//EFETUAR PAGAMENTO	
 		$venda = array("codigo"=>$codigo,
-					"valor"=>"1.00",
+					"valor"=>$valor,
 					"descricao"=>"Reserva de Quadra",
 					//    "nome"=>"",
 					//    "email"=>"brunocordeiro180@",
@@ -197,7 +197,7 @@ if( isset($_GET['transaction_id']) || $valor_int == 0){
 		<div class="container">
 			<div class="row" style="text-align: center;">
 			<div class="col-sm">
-				<h2 class="reservation__warning">Pagamento realizado com sucesso. Clique <a href="brapadel-com-br.umbler.net/minhas-reservas">aqui</a> para acessar suas reservas.</h2>
+				<h2 class="reservation__warning">Pagamento realizado com sucesso. Clique <a href="http://brapadel-com-br.umbler.net/minhas-reservas">aqui</a> para acessar suas reservas.</h2>
 			</div>
 			</div>
 		</div>
@@ -208,7 +208,7 @@ if( isset($_GET['transaction_id']) || $valor_int == 0){
 		<div class="container">
 			<div class="row" style="text-align: center;">
 			<div class="col-sm">
-				<h2 class="reservation__warning">Reserva feita com sucesso, seu pagamento está em análise. Clique <a href="brapadel-com-br.umbler.net/minhas-reservas">aqui</a> para acessar suas reservas.</h2>
+				<h2 class="reservation__warning">Reserva feita com sucesso, seu pagamento está em análise. Clique <a href="http://brapadel-com-br.umbler.net/minhas-reservas">aqui</a> para acessar suas reservas.</h2>
 			</div>
 			</div>
 		</div>
