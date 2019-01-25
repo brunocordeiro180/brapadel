@@ -169,26 +169,31 @@ class PagSeguro{
 	//Se o pagamento existir, retorna um código de 1 a 7
 	//Se o pagamento não exitir, retorna NULL
 	public function getStatusByReference($reference){
-		$url = $this->url_transactions.$this->email_token."&reference=".$reference;
-		$curl = curl_init($url);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		// $url = $this->url_transactions.$this->email_token."&reference=".$reference;
+		// $curl = curl_init($url);
+		// curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		// curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 	
-		$transaction = curl_exec($curl);
-		if($transaction == 'Unauthorized') {
-			//Insira seu código avisando que o sistema está com problemas
-			exit;//Mantenha essa linha para evitar que o código prossiga
-		}
-		$transaction_obj = simplexml_load_string($transaction);
-		if(count($transaction_obj -> error) > 0) {
-		   //Insira seu código avisando que o sistema está com problemas
-		   var_dump($transaction_obj);
-		}
-		//print_r($transaction_obj);
-		if(isset($transaction_obj->transactions->transaction->status))
-			return $transaction_obj->transactions->transaction->status;
-		else
-			return NULL;
+		// $transaction = curl_exec($curl);
+		// if($transaction == 'Unauthorized') {
+		// 	//Insira seu código avisando que o sistema está com problemas
+		// 	exit;//Mantenha essa linha para evitar que o código prossiga
+		// }
+		// $transaction_obj = simplexml_load_string($transaction);
+		// if(count($transaction_obj -> error) > 0) {
+		//    //Insira seu código avisando que o sistema está com problemas
+		//    var_dump($transaction_obj);
+		// }
+		// //print_r($transaction_obj);
+		// if(isset($transaction_obj->transactions->transaction->status))
+		// 	return $transaction_obj->transactions->transaction->status;
+		// else
+		// 	return NULL;
+
+		$url = "https://ws.pagseguro.uol.com.br/v2/transactions?email=" . $this->email . "&token=" . $this->token_oficial . "&reference=" . $reference;
+
+		$xml = simplexml_load_file($url);
+		return ($xml->transactions->transaction->status);
 	}
 	
 	public function getStatusText($code){

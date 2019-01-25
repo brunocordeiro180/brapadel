@@ -1407,7 +1407,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             <p style="margin-bottom: 1px;"><?php echo $_GET['raquetes']; ?>x Aluguel Raquete: R$<?php echo $raqueteString; ?></p>
           <?php } ?>
           <?php if($credito != '0'){ ?> 
-            <p style="margin-bottom: 1px;">Crédito: R$-<?php echo $credito; ?>.00</p>
+            <p style="margin-bottom: 1px;">Crédito: R$-<?php echo $credito; ?></p>
           <?php } ?>  
           <?php if($_GET['bolinhas'] != '0'){ ?>
             <p style="margin-bottom: 10px;"><?php echo $_GET['bolinhas']; ?>x Bolinhas: R$<?php echo $bolinhasString; ?></p>
