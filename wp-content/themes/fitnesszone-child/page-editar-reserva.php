@@ -281,12 +281,11 @@
         
         $user = wp_get_current_user()->ID; 
         $valor = floatval(str_replace(",", ".", get_field("valor", $reserva_id)));
-        $divida_old = get_field( 'divida', 'user_' . $user );
         $credito_old = get_field( 'credito', 'user_' . $user );
 
         if($total > $valor){
-            $divida = $divida_old + ($total - $valor);
-            update_field('divida', $divida, 'user_' . $user);
+            $credito = $credito_old - ($valor - $total);
+            update_field('credito', $credito_old, 'user_' . $user);
         }else{
             if($total < $valor){
                 $credito = $credito_old + ($valor - $total);

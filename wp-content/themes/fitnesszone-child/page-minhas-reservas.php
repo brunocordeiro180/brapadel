@@ -17,11 +17,8 @@
   if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !== true ): ?>
 
     <?php 
-    
         $user = wp_get_current_user()->ID; 
         $credito = get_field( 'credito', 'user_' . $user );
-        $divida = get_field( 'divida', 'user_' . $user );
-    
     ?>
 
 <section class="reservation__block">
@@ -30,7 +27,6 @@
             <div class="col-sm">
                 <h2>Minhas Reservas</h2>
                 <strong>Crédito: $<?php echo number_format($credito, 2); ?></strong>
-                <strong>| Valor Devido: $<?php echo number_format($divida, 2); ?></strong>
             </div>
             <div class="col-sm">
             <!-- <h4 style="float: right;">Crédito: $0,00</h4> -->

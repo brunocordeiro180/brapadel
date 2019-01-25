@@ -1270,12 +1270,34 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
     }else{
       $cobrandoLuz = false;
     }
-  
+
     $total = $total + ($preco_raquete * $raquetes) + ($preco_bolinhas * intval($bolinhas));
     $totalClube = $totalClube + ($preco_raquete * $raquetes) + ($preco_bolinhas * intval($bolinhas));
+    $totalAntigo = $total;
 
     $totalString = number_format($total, 2);
     $totalStringClube = number_format($totalClube, 2);
+
+    $user = wp_get_current_user()->ID; 
+    $credito = get_field( 'credito', 'user_' . $user );
+    $new_credito_online = $credito;
+    $new_credito_clube = $credito;
+
+    if($credito > 0 && $credito < $total){
+      $total = $total - $credito;
+      $new_credito_online = 0.00;
+    }elseif($credito > 0 && $credito > $total){
+      $new_credito_online = $credito - $total;
+      $total = 0.00;
+    }
+
+    if($credito > 0 && $credito < $totalClube){
+      $totalClube = $totalClube - $credito;
+      $new_credito_clube = 0.00;
+    }elseif($credito > 0 && $credito > $totalClube){
+      $new_credito_clube = $credito - $totalClube;
+      $totalClube = 0.00;
+    }
 
     $raqueteString = number_format($preco_raquete * $raquetes, 2);
     $bolinhasString = number_format($preco_bolinhas * intval($bolinhas), 2);
@@ -1341,6 +1363,8 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
                     <input name="receiverEmail" type="hidden" value="felipelira1908@hotmail.com">
                     <input name="currency" type="hidden" value="BRL">
                     <input type="hidden" name="clube" value="<?php echo $_GET['clubes']; ?>">
+                    <input type="hidden" name="valor_antigo" value="<?php echo $totalAntigo; ?>">
+                    <input type="hidden" name="credito" value="<?php echo $_GET['credito']; ?>">
                     <input type="hidden" name="user" value="<?php echo $user_logged->ID; ?>">
                     <input type="hidden" name="socios" value="<?php echo $_GET['socios']; ?>">
                     <input type="hidden" name="horario_inicial" value="<?php echo $_GET['horario_inicial']; ?>">
@@ -1381,7 +1405,10 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           <?php } ?>
           <?php if($_GET['raquetes'] != '0'){ ?> 
             <p style="margin-bottom: 1px;"><?php echo $_GET['raquetes']; ?>x Aluguel Raquete: R$<?php echo $raqueteString; ?></p>
-          <?php } ?> 
+          <?php } ?>
+          <?php if($credito != '0'){ ?> 
+            <p style="margin-bottom: 1px;">Crédito: R$-<?php echo $credito; ?>.00</p>
+          <?php } ?>  
           <?php if($_GET['bolinhas'] != '0'){ ?>
             <p style="margin-bottom: 10px;"><?php echo $_GET['bolinhas']; ?>x Bolinhas: R$<?php echo $bolinhasString; ?></p>
           <?php } ?>
@@ -1529,95 +1556,103 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
     $bolinhas = $_POST['bolinhas'];
     $data = $_POST['data'];
     $current_user = wp_get_current_user();
+
+    update_field('credito', floatval($new_credito_clube), 'user_' . $current_user->ID);
     
     $post_id = wp_insert_post(
-    array(
+      array(
         'post_author'   =>  get_currentuserinfo()->ID,                
         'post_type'     => 'reservab',
         'post_title'    => 'Reserva '
-    )
-    );
-
-    $my_post = array(
-    'ID'           =>  $post_id,
-    'post_title'   =>  'Reserva ' . $post_id
-    );
-
-    wp_update_post( $my_post );
+        )
+      );
+      
+      $my_post = array(
+        'ID'           =>  $post_id,
+        'post_title'   =>  'Reserva ' . $post_id
+      );
+      
+      wp_update_post( $my_post );
+      
+      // save a basic text value
+      $field_key = "clube";
+      $value = $clube;
+      update_field( $field_key, $value, $post_id );
+      
+      $field_key = "quadra";
+      $value = $quadra;
+      update_field( $field_key, $value, $post_id );
+      
+      // save a basic text value
+      $field_key = "socios";
+      $value = $socios;
+      update_field( $field_key, $value, $post_id );
+      
+      $field_key = "data";
+      $value = $data;
+      update_field( $field_key, $value, $post_id );
+      
+      // save a basic text value
+      $field_key = "hora_inicial";
+      $value = $hora_inicial;
+      update_field( $field_key, $value, $post_id );
+      
+      // save a basic text value
+      $field_key = "hora_final";
+      $value = $hora_final;
+      update_field( $field_key, $value, $post_id );
+      
+      // save a basic text value
+      $field_key = "raquetes";
+      $value = $raquetes;
+      update_field( $field_key, $value, $post_id );
+      
+      // save a basic text value
+      $field_key = "bolinhas";
+      $value = $bolinhas;
+      update_field( $field_key, $value, $post_id );
+      
+      // save a basic text value
+      $field_key = "status";
+      $value = 1;
+      update_field( $field_key, $value, $post_id );
+      
+      // save a basic text value
+      $field_key = "usuario";
+      $value = $current_user->ID;
+      update_field( $field_key, $value, $post_id );
+      
+      $field_key = "valor";
+      $value = $_POST['valor'];
+      update_field( $field_key, $value, $post_id ); ; 
+      
+      $field_key = "forma_de_pagamento";
+      $value = $_POST['forma_pagamento'];
+      update_field( $field_key, $value, $post_id ); 
+      
+      if($new_credito_clube == 0){
+        $field_key = "pago";
+        $value = true;
+        update_field( $field_key, $value, $post_id ); 
+      }
+      
+      wp_publish_post( $post_id ); 
+      
+      $user_data = get_userdata( get_currentuserinfo()->ID );
+      
+      // the message
+      $msg = "Sua Reserva foi cadastrada com sucesso!\nO código da sua reserva é " . $post_id . " e está programada para acontecer no dia " . str_replace(".", "/", $data) . " às  " . $hora_inicial;
+      
+      // use wordwrap() if lines are longer than 70 characters
+      $msg = wordwrap($msg,70);
+      
+      // send email
+      mail($user_data->user_email,"Confirmação de Reserva",$msg);
+      
+    }
     
-    // save a basic text value
-    $field_key = "clube";
-    $value = $clube;
-    update_field( $field_key, $value, $post_id );
-
-    $field_key = "quadra";
-    $value = $quadra;
-    update_field( $field_key, $value, $post_id );
-
-    // save a basic text value
-    $field_key = "socios";
-    $value = $socios;
-    update_field( $field_key, $value, $post_id );
-
-    $field_key = "data";
-    $value = $data;
-    update_field( $field_key, $value, $post_id );
-
-    // save a basic text value
-    $field_key = "hora_inicial";
-    $value = $hora_inicial;
-    update_field( $field_key, $value, $post_id );
-
-    // save a basic text value
-    $field_key = "hora_final";
-    $value = $hora_final;
-    update_field( $field_key, $value, $post_id );
-
-    // save a basic text value
-    $field_key = "raquetes";
-    $value = $raquetes;
-    update_field( $field_key, $value, $post_id );
-
-    // save a basic text value
-    $field_key = "bolinhas";
-    $value = $bolinhas;
-    update_field( $field_key, $value, $post_id );
     
-    // save a basic text value
-    $field_key = "status";
-    $value = 1;
-    update_field( $field_key, $value, $post_id );
-
-    // save a basic text value
-    $field_key = "usuario";
-    $value = $current_user->ID;
-    update_field( $field_key, $value, $post_id );
-
-    $field_key = "valor";
-    $value = $_POST['valor'];
-    update_field( $field_key, $value, $post_id ); ; 
-
-    $field_key = "forma_de_pagamento";
-    $value = $_POST['forma_pagamento'];
-    update_field( $field_key, $value, $post_id ); 
-    
-    wp_publish_post( $post_id ); 
-
-    $user_data = get_userdata( get_currentuserinfo()->ID );
-    
-    // the message
-    $msg = "Sua Reserva foi cadastrada com sucesso!\nO código da sua reserva é " . $post_id . " e está programada para acontecer no dia " . str_replace(".", "/", $data) . " às  " . $hora_inicial;
-
-    // use wordwrap() if lines are longer than 70 characters
-    $msg = wordwrap($msg,70);
-
-    // send email
-    mail($user_data->user_email,"Confirmação de Reserva",$msg);
-
-  }
-
-
- ?>
+    ?>
   </section>
   <?php endif; ?>
 

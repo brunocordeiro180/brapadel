@@ -7,6 +7,8 @@ require_once("../../../wp-load.php");
 require_once("PagSeguro.class.php");
 $PagSeguro = new PagSeguro();
 $codigo = 0; $valor = 1.00;
+$valor_int = floatval($_POST['valor']);
+$credito = $_SESSION['credito'];
 
 if( !isset($_GET['transaction_id']) ){
 	$clube = $_POST['clube'];
@@ -106,28 +108,30 @@ if( !isset($_GET['transaction_id']) ){
 	$_SESSION['codigo'] = $post_id;
 	$valor = $_POST['valor'];
 
-	//EFETUAR PAGAMENTO	
-	$venda = array("codigo"=>$codigo,
-				"valor"=>"1.00",
-				"descricao"=>"Reserva de Quadra",
-				//    "nome"=>"",
-				//    "email"=>"brunocordeiro180@",
-				//    "telefone"=>"(XX) XXXX-XXXX",
-				//    "rua"=>"",
-				//    "numero"=>"",
-				//    "bairro"=>"",
-				//    "cidade"=>"",
-				"estado"=>"DF", //2 LETRAS MAIÚSCULAS
-				//    "cep"=>"XX.XXX-XXX",
-				"codigo_pagseguro"=>"");
-				
-	$PagSeguro->executeCheckout($venda,"http://brapadel-com-br.umbler.net/wp-content/themes/fitnesszone-child/checkout.php");
+	if($valor_int != 0 && $valor_int != 0.00 && $valor_int != "0.00"){
+
+		//EFETUAR PAGAMENTO	
+		$venda = array("codigo"=>$codigo,
+					"valor"=>$valor,
+					"descricao"=>"Reserva de Quadra",
+					//    "nome"=>"",
+					//    "email"=>"brunocordeiro180@",
+					//    "telefone"=>"(XX) XXXX-XXXX",
+					//    "rua"=>"",
+					//    "numero"=>"",
+					//    "bairro"=>"",
+					//    "cidade"=>"",
+					"estado"=>"DF", //2 LETRAS MAIÚSCULAS
+					//    "cep"=>"XX.XXX-XXX",
+					"codigo_pagseguro"=>"");
+					
+		$PagSeguro->executeCheckout($venda,"http://brapadel-com-br.umbler.net/wp-content/themes/fitnesszone-child/checkout.php");
+	}
 
 //----------------------------------------------------------------------------
 }
-
 //RECEBER RETORNO
-if( isset($_GET['transaction_id']) ){
+if( isset($_GET['transaction_id']) || $valor_int == 0){
 	get_header();
 
 	if(is_array(get_userdata(wp_get_current_user()->ID)->roles)){
@@ -167,11 +171,23 @@ if( isset($_GET['transaction_id']) ){
 	</section>
 
 	<?php } 
-	echo "codigo " . $_SESSION['codigo'];
-	$pagamento = $PagSeguro->getStatusByReference($_SESSION['codigo']);
 	
+	$user = wp_get_current_user()->ID; 
+	$credito = get_field( 'credito', 'user_' . $user );
+	$total = $_POST['valor_antigo'];
+
+    $new_credito = $credito;
+    if($credito > 0 && $credito < $total){
+      $total = $total - $credito;
+	  $new_credito = 0.00;
+    }elseif($credito > 0 && $credito > $total){
+      $new_credito = floatval($credito) - floatval($total);
+	  $total = 0.00;
+	}
+
+	$pagamento = $PagSeguro->getStatusByReference($_SESSION['codigo']);
 	$pagamento->codigo_pagseguro = $_GET['transaction_id'];
-	echo "status" . $pagamento->status;
+
 	if($pagamento->status==3 || $pagamento->status==4){
 		$field_key = "pago";
 		$value = true;
