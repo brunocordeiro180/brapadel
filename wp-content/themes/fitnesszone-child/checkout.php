@@ -4,6 +4,8 @@ header("Content-Type: text/html; charset=UTF-8",true);
 date_default_timezone_set('America/Sao_Paulo');
 require_once("../../../wp-load.php");
 
+error_reporting(E_ERROR | E_PARSE);
+
 require_once("PagSeguro.class.php");
 $PagSeguro = new PagSeguro();
 $codigo = 0; $valor = 1.00;
@@ -112,7 +114,7 @@ if( !isset($_GET['transaction_id']) ){
 
 		//EFETUAR PAGAMENTO	
 		$venda = array("codigo"=>$codigo,
-					"valor"=>$valor,
+					"valor"=>"1.00",
 					"descricao"=>"Reserva de Quadra",
 					//    "nome"=>"",
 					//    "email"=>"brunocordeiro180@",
