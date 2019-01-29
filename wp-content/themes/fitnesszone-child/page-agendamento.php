@@ -1116,6 +1116,11 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           $qtd30 = 2;
         }
       }
+
+      $qtd30 = intval($qtd30 / 2);
+      if($qtd30 <= 0 ){
+        $qtd30 = 1;
+      }
       
       if(($hora_inicial[0] == $horario_luz[0] && $hora_inicial[1] == $horario_luz[1]) || ($hora_inicial[0] == $horario_luz[0] && $horario_luz[1] == 0) || ($hora_inicial[0] > $horario_luz[0] && ($hora_inicial[1] == 30 || $hora_inicial[1] == 0))){
         $total = $total + ($qtd30 * $luz);
@@ -1239,7 +1244,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
             <p style="margin-bottom: 0px;">Clube <?php echo $_GET['clubes']; ?>&nbsp Quadra <?php echo $_GET['quadra']; ?></p>
             <p style="margin-bottom: 0px;">Data: <?php echo str_replace(".", "/", $_GET['date']); ?></p>
             <p style="margin-bottom: 3px;">Entrada: <?php echo str_replace(":", "h", $_GET["horario_inicial"]); ?>&nbsp Saída: <?php echo str_replace(":", "h", $_GET["horario_final"]); ?></p>
-            <p style="margin-bottom: -5px;"><?php echo $qtd30; ?>x reserva de 30 minutos<?php echo $qualhorario; ?></p>
+            <p style="margin-bottom: -5px;"><?php echo $qtd30; ?>x reserva de 1 hora<?php echo $qualhorario; ?></p>
             <?php if($socios > 0){ ?>
             <p style="margin-bottom: 10px;"><?php echo $socios; ?>x desconto sócio: -R$<?php echo $desconto; ?>.00</p>
             <?php } ?>
@@ -1396,7 +1401,7 @@ if(is_user_logged_in() && strpos(strtoupper($capitalized_value), 'bloqueado') !=
           <p style="margin-bottom: 0px;">Clube <?php echo $_GET['clubes']; ?>&nbsp Quadra <?php echo $_GET['quadra']; ?></p>
           <p style="margin-bottom: 0px;">Data: <?php echo str_replace(".", "/", $_GET['date']); ?></p>
           <p style="margin-bottom: 3px;">Entrada: <?php echo str_replace(":", "h", $_GET["horario_inicial"]); ?>&nbsp Saída: <?php echo str_replace(":", "h", $_GET["horario_final"]); ?></p>
-          <p style="margin-bottom: -5px;"><?php echo $qtd30; ?>x reserva de 30 minutos<?php echo $qualhorario; ?></p>
+          <p style="margin-bottom: -5px;"><?php echo $qtd30; ?>x reserva de 1 hora<?php echo $qualhorario; ?></p>
           <?php if($socios > 0){ ?>
           <p style="margin-bottom: 10px;"><?php echo $socios; ?>x desconto sócio: -R$<?php echo $desconto; ?>.00</p>
           <?php } ?>
